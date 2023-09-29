@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Signin from "./Pages/Signin";
 import Signup from "./Pages/Signup";
 import HrDashbords from "./Pages/HR/HrDashbords";
@@ -8,7 +8,7 @@ import HrDeclined from "./Pages/HR/HrDeclined";
 import EmployerDashboard from "./Pages/Employer/EmployerDashboard";
 import EmployerRequest from "./Pages/Employer/EmployerRequest";
 import EmployerNotification from "./Pages/Employer/EmployerNotification";
-
+import NotFound from "./Pages/NotFound";
 function App() {
   return (
     <Routes>
@@ -23,6 +23,8 @@ function App() {
       <Route path="/employer-dashboard" element={<EmployerDashboard />} />
       <Route path="/employer-request" element={<EmployerRequest />} />
       <Route path="/employer-Notification" element={<EmployerNotification />} />
+
+      <Route path="/*" element={<NotFound />} />
     </Routes>
   );
 }
