@@ -9,9 +9,7 @@ import React from "react";
 import jwt_decode from "jwt-decode";
 const AttendanceSystem = () => {
   const token = window.localStorage.getItem("token");
-
   const decodedToken = jwt_decode(token);
-  console.log("Decoded Token:", decodedToken);
   return (
     <Stack
       direction={"row"}
@@ -72,7 +70,7 @@ const AttendanceSystem = () => {
           <CardContent>
             <Typography>Remaining Request</Typography>
             <Typography fontSize={"30px"} fontWeight={"bold"}>
-              0
+              {decodedToken.data.total_leaves}
             </Typography>
           </CardContent>
         </CardActionArea>
