@@ -6,8 +6,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-
+import jwt_decode from "jwt-decode";
 const AttendanceSystem = () => {
+  const token = window.localStorage.getItem("token");
+
+  const decodedToken = jwt_decode(token);
+  console.log("Decoded Token:", decodedToken);
   return (
     <Stack
       direction={"row"}
@@ -25,7 +29,9 @@ const AttendanceSystem = () => {
         >
           <CardContent>
             <Typography>Pending Request</Typography>
-            <Typography fontSize={"30px"} fontWeight={"bold"}>0</Typography>
+            <Typography fontSize={"30px"} fontWeight={"bold"}>
+              0
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -37,7 +43,9 @@ const AttendanceSystem = () => {
         >
           <CardContent>
             <Typography>Approved Request</Typography>
-            <Typography fontSize={"30px"} fontWeight={"bold"}>0</Typography>
+            <Typography fontSize={"30px"} fontWeight={"bold"}>
+              0
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -49,7 +57,9 @@ const AttendanceSystem = () => {
         >
           <CardContent>
             <Typography>Declined Request</Typography>
-            <Typography fontSize={"30px"} fontWeight={"bold"}>0</Typography>
+            <Typography fontSize={"30px"} fontWeight={"bold"}>
+              0
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -61,7 +71,9 @@ const AttendanceSystem = () => {
         >
           <CardContent>
             <Typography>Remaining Request</Typography>
-            <Typography fontSize={"30px"} fontWeight={"bold"}>0</Typography>
+            <Typography fontSize={"30px"} fontWeight={"bold"}>
+              0
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>

@@ -33,7 +33,6 @@ export const Login = async (data) => {
       window.localStorage.setItem("token", token);
 
       const decodedToken = jwt_decode(token);
-      console.log("Decoded Token:", decodedToken);
 
       if (decodedToken.role === "admin") {
         window.location.href = "/admin";
