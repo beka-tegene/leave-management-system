@@ -26,7 +26,7 @@ const StoreAuth = createSlice({
         email: newData.email,
         studied: newData.studied,
         department: newData.department,
-        employedDate: newData.employedDate,
+        employed_date: newData.employed_date,
         password: newData.password,
       });
     },

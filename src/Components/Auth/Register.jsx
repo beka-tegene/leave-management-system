@@ -25,7 +25,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [studied, setStudied] = useState("");
   const [department, setDepartment] = useState("");
-  const [employedDate, setEmployedDate] = useState("");
+  const [employment_date, setemployment_date] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const Register = () => {
       formData.append("fullName", fullName);
       formData.append("email", email);
       formData.append("studied", studied);
-      formData.append("employed_date", employedDate);
+      formData.append("employment_date", employment_date);
       formData.append("department", department);
       formData.append("password", password);
 
@@ -97,7 +97,7 @@ const Register = () => {
     setEmail("");
     setStudied("");
     setDepartment("");
-    setEmployedDate("");
+    setemployment_date("");
     setPassword("");
     setConfirmPassword("");
     setErrors({});
@@ -184,8 +184,8 @@ const Register = () => {
                 id="Employed-basic"
                 variant="outlined"
                 type="date"
-                value={employedDate}
-                onChange={(e) => setEmployedDate(e.target.value)}
+                value={employment_date}
+                onChange={(e) => setemployment_date(e.target.value)}
               />
             </FormControl>
             <InputLabel htmlFor="Photo-basic">Photo</InputLabel>

@@ -40,14 +40,12 @@ const Login = () => {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-
     if (validateForm()) {
       const formData = new FormData();
-
       formData.append("email", email);
       formData.append("password", password);
-
       await dispatch(setLogin(formData));
+    
     }
   };
   return (
