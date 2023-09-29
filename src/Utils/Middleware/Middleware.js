@@ -1,26 +1,17 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getCarRent, getCarSell } from "../Stores/CarStore";
+import { setRegisterData } from "../Stores/AuthStore";
+import { Register } from "../Api/Auth";
 
-export function* watchFetchAyzot() {
-  yield takeLatest("car/getCarSellData", fetchCarSells);
-  yield takeLatest("car/getCarRentData", fetchCarRents);
+export function* watchFetchLeave() {
+  yield takeLatest("auth/setRegister", fetchSetRegister);
 }
 
 // Authentication and Authorization data
 
-function* fetchCarSells(action) {
+function* fetchSetRegister(action) {
   try {
-    const searchData = yield call(action, action.payload);
-    yield put(getCarSell(searchData));
-  } catch (error) {
-    console.error("Saga Error:", error);
-  }
-}
-
-function* fetchCarRents(action) {
-  try {
-    const searchData = yield call(action, action.payload);
-    yield put(getCarRent(searchData));
+    yield call(Register, action.payload);
+    yield setRegisterData();
   } catch (error) {
     console.error("Saga Error:", error);
   }
