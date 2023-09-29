@@ -13,7 +13,6 @@ const Dashboard = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
-  console.log("Decoded Token:", decodedToken.data);
   return (
     <Stack
       position={"sticky"}

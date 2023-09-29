@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, takeLatest } from "redux-saga/effects";
 import { setLoginData, setRegisterData } from "../Stores/AuthStore";
 import { Login, Register } from "../Api/Auth";
 
