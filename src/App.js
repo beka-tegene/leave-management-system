@@ -7,6 +7,7 @@ import HrApproved from "./Pages/HR/HrApproved";
 import HrDeclined from "./Pages/HR/HrDeclined";
 import EmployerDashboard from "./Pages/Employer/EmployerDashboard";
 import EmployerRequest from "./Pages/Employer/EmployerRequest";
+import EmployerNotification from "./Pages/Employer/EmployerNotification";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 
       <Route path="/employer-dashboard" element={<EmployerDashboard />} />
       <Route path="/employer-request" element={<EmployerRequest />} />
+      <Route path="/employer-Notification" element={<EmployerNotification />} />
     </Routes>
   );
 }
