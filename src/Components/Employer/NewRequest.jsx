@@ -14,9 +14,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setNewRequest } from "../../Utils/Stores/LeaveStore";
 const NewRequest = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [leaveType, setLeaveType] = useState(null);
+  const [dayLeave, setDayLeave] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [description, setDescription] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
@@ -32,6 +40,19 @@ const NewRequest = () => {
         setSelectedFile(null);
       }
     }
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("selectedFile", selectedFile);
+    formData.append("leaveType", leaveType);
+    formData.append("dayLeave", dayLeave);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("description", description);
+
+    await dispatch(setNewRequest(formData));
   };
   return (
     <Stack
@@ -50,8 +71,9 @@ const NewRequest = () => {
           p: 2,
           width: 425,
         }}
+        onSubmit={submitHandler}
       >
-        <Typography fontSize={"20px"} >New Request</Typography>
+        <Typography fontSize={"20px"}>New Request</Typography>
         <Divider sx={{ m: 1 }} />
         <Stack direction={"column"} gap={2} sx={{ width: "100%" }}>
           <FormControl
@@ -74,6 +96,7 @@ const NewRequest = () => {
                 // border: "2px solid #3348BB",
                 // borderRadius: 1,
               }}
+              onChange={(e) => setLeaveType(e.target.value)}
             >
               <MenuItem value="sick leave">sick leave</MenuItem>
               <MenuItem value="annual leave">annual leave</MenuItem>
@@ -89,6 +112,7 @@ const NewRequest = () => {
               name="controlled-radio-buttons-group"
               //   value={value}
               //   onChange={handleChange}
+              onChange={(e) => setDayLeave(e.target.value)}
             >
               <FormControlLabel
                 value="Half Day"
@@ -113,6 +137,7 @@ const NewRequest = () => {
                 border: "2px solid #3348BB",
                 borderRadius: 4,
               }}
+              onChange={(e) => setStartDate(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required>
@@ -126,6 +151,7 @@ const NewRequest = () => {
                 border: "2px solid #3348BB",
                 borderRadius: 4,
               }}
+              onChange={(e) => setEndDate(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required>
@@ -139,6 +165,7 @@ const NewRequest = () => {
                 borderRadius: 4,
                 resize: "none",
               }}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required size="small">
