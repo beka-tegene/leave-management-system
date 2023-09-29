@@ -87,7 +87,7 @@ const Register = () => {
 
       await dispatch(setRegister(formData));
       alert("Registration successful!");
-      // resetForm();
+      resetForm();
     }
   };
 

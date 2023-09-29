@@ -8,10 +8,48 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { setLogin } from "../../Utils/Stores/AuthStore";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const validateForm = () => {
+    const newErrors = {};
+    let isValid = true;
+
+    if (!email) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      const formData = new FormData();
+
+      formData.append("email", email);
+      formData.append("password", password);
+
+      await dispatch(setLogin(formData));
+    }
+  };
   return (
     <Stack
       sx={{ height: "100dvh", backgroundColor: "#F7F7F7" }}
@@ -45,6 +83,7 @@ const Login = () => {
               justifyContent: "center",
               p: 2,
             }}
+            onSubmit={submitHandler}
           >
             <FormControl sx={{ width: "100%" }} size="small" required>
               <TextField
@@ -52,6 +91,10 @@ const Login = () => {
                 label="Email"
                 variant="outlined"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
               />
             </FormControl>
             <FormControl sx={{ width: "100%" }} size="small" required>
@@ -60,6 +103,10 @@ const Login = () => {
                 label="Password"
                 variant="outlined"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
               />
             </FormControl>
             <Link
