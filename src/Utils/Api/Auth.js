@@ -11,7 +11,7 @@ export const Register = async (data) => {
       },
     })
     console.log(useData);
-    if (useData.data.status === 201) {
+    if (useData.status === 201) {
       window.location.href = "/login";
     }else{
       window.location.href = "/register"
@@ -30,7 +30,7 @@ export const Register = async (data) => {
         },
       })
       console.log(useData);
-      if (useData.data.status === 201) {
+      if (useData.status === 200) {
         window.location.href = "/login";
       }else{
         window.location.href = "/register"
