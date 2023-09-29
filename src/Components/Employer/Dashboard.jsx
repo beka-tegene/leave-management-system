@@ -6,10 +6,13 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import profile from "../../Image/logo.jpeg";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 const Dashboard = () => {
   const navigate = useNavigate();
+  const token = window.localStorage.getItem("token");
+
+  const decodedToken = jwt_decode(token);
   return (
     <Stack
       position={"sticky"}
@@ -35,7 +38,7 @@ const Dashboard = () => {
           }}
         >
           <img
-            src={profile}
+            src={decodedToken?.data?.photo}
             alt="profile"
             style={{ width: "100%", borderRadius: "50%" }}
           />
@@ -45,10 +48,10 @@ const Dashboard = () => {
           color="#FFFFFF"
           sx={{ textAlign: "center" }}
         >
-          Daniel Tadesse
+          {decodedToken?.data?.name}
         </Typography>
-        <Typography color="#FFFFFF" sx={{ textAlign: "center" }}>
-          Employer
+        <Typography color="#FFFFFF" sx={{ textAlign: "center",textTransform:"capitalize" }}>
+          {decodedToken.data.role}
         </Typography>
       </Stack>
       <Stack
