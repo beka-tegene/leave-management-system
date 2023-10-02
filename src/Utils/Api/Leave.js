@@ -28,3 +28,31 @@ export const fetchUser = async () => {
   const useData = await axios.get("http://localhost:5000/users");
   return useData.data;
 };
+export const approveLeave = async (data) => {
+
+  //leaveId, email, allowedLeaveDays 
+  const Approve = await axios.post("http://localhost:5000/leave/approve", {
+    data,
+    ContentType: "application/json",
+    Accept: "application/json",
+  });
+  console.log(Approve);
+  if (Approve.status === 200) {
+ console.log("success");
+  }
+};
+
+
+export const declineLeave = async (data) => {
+
+  // leaveId, email 
+  const Decline = await axios.post("http://localhost:5000/leave/decline", {
+    data,
+    ContentType: "application/json",
+    Accept: "application/json",
+  });
+  console.log(Decline);
+  if (Decline.status === 200) {
+   console.log("success");
+  }
+};
