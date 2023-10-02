@@ -9,11 +9,34 @@ import {
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 const HrDashboard = () => {
   const navigate = useNavigate();
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
+
+  const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getNewRequestData());
+  }, [dispatch]);
+  const Users = useSelector((state) => state.StoreLeave.OutputUsers);
+  useEffect(() => {
+    dispatch(getUsersData());
+  }, [dispatch]);
+  const joinData = (leaveItem) => {
+    const matchingUser = Users.find(
+      (user) => user.email === leaveItem.email && leaveItem.status === "pending"
+    );
+    return {
+      leave: leaveItem,
+      user: matchingUser,
+    };
+  };
+  const joinedData = Leave.map((leaveItem) => joinData(leaveItem));
   return (
     <Stack
       position={"sticky"}
@@ -51,7 +74,10 @@ const HrDashboard = () => {
         >
           {decodedToken?.data?.name}
         </Typography>
-        <Typography color="#FFFFFF" sx={{ textAlign: "center",textTransform:"capitalize" }}>
+        <Typography
+          color="#FFFFFF"
+          sx={{ textAlign: "center", textTransform: "capitalize" }}
+        >
           {decodedToken?.data?.role}
         </Typography>
       </Stack>
@@ -80,11 +106,11 @@ const HrDashboard = () => {
             Dashboard
           </ListItemButton>
           <ListItemButton onClick={() => navigate("/hr-pending")}>
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={joinedData.length()} color="error">
               Pending Request
             </Badge>
           </ListItemButton>
-          
+
           <ListItemButton
             onClick={() => {
               localStorage.clear();
