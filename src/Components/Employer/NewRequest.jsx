@@ -16,42 +16,47 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setNewRequest } from "../../Utils/Stores/LeaveStore";
+import jwt_decode from "jwt-decode";
 const NewRequest = () => {
   const [photo, setphoto] = useState(null);
   const [leave_type, setleave_type] = useState(null);
-  const [dayLeave, setDayLeave] = useState(null);
+  const [duration, setduration] = useState(null);
   const [start_date, setstart_date] = useState(null);
   const [end_date, setend_date] = useState(null);
   const [reason, setreason] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const token = window.localStorage.getItem("token");
+  const decodedToken = jwt_decode(token);
   const dispatch = useDispatch();
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-
-    if (file) {
-      if (file.type === "application/pdf") {
-        const fileSizeInMegabytes = file.size / (1024 * 1024); // Convert bytes to megabytes
-        setphoto({
-          file,
-          sizeInMegabytes: fileSizeInMegabytes.toFixed(2), // Round to 2 decimal places
-        });
-      } else {
-        setErrorMessage("Please select a PDF file.");
-        setphoto(null);
-      }
-    }
+    setphoto(file);
+    // if (file) {
+    //   if (file.type === "application/pdf") {
+    //     const fileSizeInMegabytes = file.size / (1024 * 1024); // Convert bytes to megabytes
+    //     setphoto({
+    //       file,
+    //       sizeInMegabytes: fileSizeInMegabytes.toFixed(2), // Round to 2 decimal places
+    //     });
+    //   } else {
+    //     setErrorMessage("Please select a PDF file.");
+    //     setphoto(null);
+    //   }
+    // }
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("_id", decodedToken.data._id);
+    formData.append("email", decodedToken.data.email);
     formData.append("photo", photo);
-    formData.append("dayLeave", dayLeave);
+    formData.append("duration", duration);
     formData.append("leave_type", leave_type);
     formData.append("start_date", start_date);
     formData.append("end_date", end_date);
     formData.append("reason", reason);
-    
+    console.log(formData.get("photo"));
     await dispatch(setNewRequest(formData));
   };
   return (
@@ -112,15 +117,15 @@ const NewRequest = () => {
               name="controlled-radio-buttons-group"
               //   value={value}
               //   onChange={handleChange}
-              onChange={(e) => setDayLeave(e.target.value)}
+              onChange={(e) => setduration(e.target.value)}
             >
               <FormControlLabel
-                value="Half Day"
+                value="1"
                 control={<Radio />}
                 label="Half Day"
               />
               <FormControlLabel
-                value="Full Day"
+                value="0.5"
                 control={<Radio />}
                 label="Full Day"
               />
