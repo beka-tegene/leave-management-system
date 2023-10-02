@@ -7,12 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 const HrDashboard = () => {
+  const hrDashboard = useMatch("/hr-dashboard");
+  const hrPending = useMatch("/hr-pending");
   const navigate = useNavigate();
   const token = window.localStorage.getItem("token");
 
@@ -85,7 +87,7 @@ const HrDashboard = () => {
       <Stack
         sx={{
           height: "70dvh",
-          background: "#272727",
+          background: "#323445",
           borderRadius: "0 5rem 0 0",
         }}
       >
@@ -101,12 +103,22 @@ const HrDashboard = () => {
           }}
         >
           <ListItemButton
-            sx={{ fontWeight: "lg" }}
+            sx={{
+              fontWeight: "lg",
+              background: hrDashboard ? "#FFF" : "",
+              color: hrDashboard ? "#171717" : "",
+            }}
             onClick={() => navigate("/hr-dashboard")}
           >
             Dashboard
           </ListItemButton>
-          <ListItemButton onClick={() => navigate("/hr-pending")}>
+          <ListItemButton
+            onClick={() => navigate("/hr-pending")}
+            sx={{
+              background: hrPending ? "#FFF" : "",
+              color: hrPending ? "#171717" : "",
+            }}
+          >
             <Badge badgeContent={joinedData.length} color="error">
               Pending Request
             </Badge>

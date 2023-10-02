@@ -1,4 +1,5 @@
 import {
+  Badge,
   ImageListItem,
   List,
   ListItemButton,
@@ -6,9 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 const Dashboard = () => {
+  const employerDashboard = useMatch("/employer-dashboard");
+  const employerNotification = useMatch("/employer-Notification");
+  const employerRequest = useMatch("/employer-request");
   const navigate = useNavigate();
   const token = window.localStorage.getItem("token");
 
@@ -50,14 +54,17 @@ const Dashboard = () => {
         >
           {decodedToken?.data?.name}
         </Typography>
-        <Typography color="#FFFFFF" sx={{ textAlign: "center",textTransform:"capitalize" }}>
+        <Typography
+          color="#FFFFFF"
+          sx={{ textAlign: "center", textTransform: "capitalize" }}
+        >
           {decodedToken.data.role}
         </Typography>
       </Stack>
       <Stack
         sx={{
           height: "70dvh",
-          background: "#222c65",
+          background: "#323445",
           borderRadius: "0 5rem 0 0",
         }}
       >
@@ -73,12 +80,36 @@ const Dashboard = () => {
           }}
         >
           <ListItemButton
-            sx={{ fontWeight: "lg" }}
+            sx={{
+              fontWeight: "lg",
+              background: employerDashboard ? "#FFF" : "",
+              color: employerDashboard ? "#171717" : "",
+            }}
             onClick={() => navigate("/employer-dashboard")}
           >
             Dashboard
           </ListItemButton>
-          <ListItemButton onClick={() => navigate("/employer-request")}>
+          <ListItemButton
+            onClick={() => navigate("/employer-Notification")}
+            sx={{
+              background: employerNotification ? "#FFF" : "",
+              color: employerNotification ? "#171717" : "",
+            }}
+          >
+            <Badge
+              badgeContent={decodedToken?.data?.Notification?.length}
+              color="error"
+            >
+              Notification
+            </Badge>
+          </ListItemButton>
+          <ListItemButton
+            onClick={() => navigate("/employer-request")}
+            sx={{
+              background: employerRequest ? "#FFF" : "",
+              color: employerRequest ? "#171717" : "",
+            }}
+          >
             New Request
           </ListItemButton>
           <ListItemButton

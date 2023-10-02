@@ -55,7 +55,7 @@ const Login = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
-      <Card sx={{ width: 450 }}>
+      <Card sx={{ width: 450,background:"#323445" }}>
         <CardContent>
           <Typography
             fontSize={"14px"}
@@ -79,7 +79,7 @@ const Login = () => {
               flexDirection: "column",
               gap: 2,
               justifyContent: "center",
-              p: 2,
+              p: 2,background:"#323445",color:"#FFFFFF"
             }}
             onSubmit={submitHandler}
           >
@@ -111,7 +111,7 @@ const Login = () => {
               style={{
                 textAlign: "right",
                 textDecoration: "none",
-                color: "#272727",
+                color: "#2299ff",
               }}
             >
               Forget password
@@ -130,7 +130,7 @@ const Login = () => {
               <Link
                 style={{
                   textDecoration: "none",
-                  color: "#213322",
+                  color:"#2299ff"
                 }}
                 to={"/register"}
               >

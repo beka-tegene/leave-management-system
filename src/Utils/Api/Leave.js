@@ -29,8 +29,8 @@ export const fetchUser = async () => {
   return useData.data;
 };
 export const approveLeave = async (data) => {
-console.log(data);
-  //leaveId, email, allowedLeaveDays 
+  console.log(data);
+  //leaveId, email, allowedLeaveDays
   const Approve = await axios.post("http://localhost:5000/leave/approve", {
     data,
     ContentType: "application/json",
@@ -38,14 +38,12 @@ console.log(data);
   });
   console.log(Approve);
   if (Approve.status === 200) {
- console.log("success");
+    window.location.reload(true);
   }
 };
 
-
 export const declineLeave = async (data) => {
-
-  // leaveId, email 
+  // leaveId, email
   const Decline = await axios.post("http://localhost:5000/leave/decline", {
     data,
     ContentType: "application/json",
@@ -53,6 +51,6 @@ export const declineLeave = async (data) => {
   });
   console.log(Decline);
   if (Decline.status === 200) {
-   console.log("success");
+    window.location.reload(true);
   }
 };

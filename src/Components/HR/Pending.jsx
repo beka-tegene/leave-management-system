@@ -99,7 +99,7 @@ const Pending = () => {
       name: "Action",
       selector: (row) => {
         return (
-          <Stack direction={"row"} gap={1}>
+          <Stack direction={"row"} gap={1} >
             <IconButton
               sx={{
                 borderRadius: 1,
@@ -151,7 +151,7 @@ const Pending = () => {
         backgroundColor: "#ededed",
         color: "#272727",
         "&:hover": {
-          backgroundColor: "#373737",
+          backgroundColor: "#323445",
           color: "#fff",
         },
       },
@@ -159,7 +159,7 @@ const Pending = () => {
     headCells: {
       style: {
         borderRadius: 2,
-        backgroundColor: "#474747",
+        backgroundColor: "#323445",
         color: "#fff",
       },
     },
@@ -174,12 +174,12 @@ const Pending = () => {
       alignItems={"flex-start"}
       justifyContent={"flex-start"}
       flexWrap={"wrap"}
-      sx={{ width: "84%", background: "#F7F7F7", p: 2 }}
+      sx={{ width: "84%", background: "#171717", p: 2 }}
       gap={3}
     >
       <Card
         sx={{
-          width: "100%",
+          width: "100%",background: "#171717",color:"#FFFFFF"
         }}
       >
         <Typography sx={{ p: 1, pl: 2 }}>New Request</Typography>

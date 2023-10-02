@@ -38,11 +38,11 @@ const Register = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setSelectedImage(file)
+    setSelectedImage(file);
 
     const imageURL = URL.createObjectURL(file);
     setSelectedImageURL(imageURL);
-  }; 
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -110,7 +110,7 @@ const Register = () => {
       justifyContent="center"
       sx={{ backgroundColor: "#171717", padding: "4rem 0" }}
     >
-      <Card sx={{ width: 450 }}>
+      <Card sx={{ width: 450, background: "#323445" }}>
         <CardContent>
           <Typography
             fontSize="14px"
@@ -129,6 +129,8 @@ const Register = () => {
               flexDirection: "column",
               gap: 2,
               p: 2,
+              background: "#323445",
+              color: "#FFFFFF",
             }}
             onSubmit={submitHandler}
           >
@@ -247,13 +249,13 @@ const Register = () => {
                 Register
               </Button>
             </Stack>
-            <Typography align="center" color="textSecondary" mt={2}>
+            <Typography align="center" mt={2}>
               Already have an account?{" "}
               <Link
                 to="/"
                 style={{
                   textDecoration: "none",
-                  color: "#213322",
+                  color: "#2299ff",
                 }}
               >
                 Login

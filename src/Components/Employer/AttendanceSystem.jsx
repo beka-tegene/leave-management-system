@@ -5,11 +5,39 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import jwt_decode from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewRequestData } from "../../Utils/Stores/LeaveStore";
+
 const AttendanceSystem = () => {
   const token = window.localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
+  console.log(decodedToken);
+  const approvedNotification = decodedToken.data?.Notification?.filter(
+    (item) => item.type === "approved"
+  );
+  const declineNotification = decodedToken.data?.Notification?.filter(
+    (item) => item.type === "declined"
+  );
+  const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getNewRequestData());
+  }, [dispatch]);
+  const joinData = (leaveItem) => {
+    const matchingUser = decodedToken.data.users?.find(
+      (user) => user.email === leaveItem.email
+    );
+    return {
+      leave: leaveItem,
+      user: matchingUser,
+    };
+  };
+  const pendingLeaveData = Leave.filter(
+    (leaveItem) => leaveItem.status === "pending"
+  );
+  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
   return (
     <Stack
       direction={"row"}
@@ -20,7 +48,7 @@ const AttendanceSystem = () => {
       gap={3}
     >
       <Card
-        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#FFA500" }}
+        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#cccccc", "&:hover":{background:"#323445", color:"#FFFFFF"} }}
       >
         <CardActionArea
           sx={{ width: "100%", height: "100%", textAlign: "center" }}
@@ -28,13 +56,13 @@ const AttendanceSystem = () => {
           <CardContent>
             <Typography>Pending Request</Typography>
             <Typography fontSize={"30px"} fontWeight={"bold"}>
-              0
+              {joinedData.length}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <Card
-        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#008000" }}
+        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#cccccc", "&:hover":{background:"#323445", color:"#FFFFFF"} }}
       >
         <CardActionArea
           sx={{ width: "100%", height: "100%", textAlign: "center" }}
@@ -42,13 +70,13 @@ const AttendanceSystem = () => {
           <CardContent>
             <Typography>Approved Request</Typography>
             <Typography fontSize={"30px"} fontWeight={"bold"}>
-              0
+              {approvedNotification.length}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <Card
-        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#FF0000" }}
+        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#cccccc", "&:hover":{background:"#323445", color:"#FFFFFF"} }}
       >
         <CardActionArea
           sx={{ width: "100%", height: "100%", textAlign: "center" }}
@@ -56,13 +84,13 @@ const AttendanceSystem = () => {
           <CardContent>
             <Typography>Declined Request</Typography>
             <Typography fontSize={"30px"} fontWeight={"bold"}>
-              0
+              {declineNotification.length}
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <Card
-        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#CCCCCC" }}
+        sx={{ minWidth: "45%", height: "45dvh", backgroundColor: "#CCCCCC", "&:hover":{background:"#323445", color:"#FFFFFF"} }}
       >
         <CardActionArea
           sx={{ width: "100%", height: "100%", textAlign: "center" }}

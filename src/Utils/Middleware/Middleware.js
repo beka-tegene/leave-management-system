@@ -85,7 +85,7 @@ function* fetchSetApproveLeave(action) {
 
 function* fetchSetDeclineLeave(action) {
   try {
-    yield call(declineLeave, action.payload);
+    yield call(declineLeave, action.payload.data);
     yield setDeclineLeaveData();
   } catch (error) {
     console.error("Saga Error:", error);
