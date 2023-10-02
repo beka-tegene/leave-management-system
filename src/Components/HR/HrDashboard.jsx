@@ -106,7 +106,7 @@ const HrDashboard = () => {
             Dashboard
           </ListItemButton>
           <ListItemButton onClick={() => navigate("/hr-pending")}>
-            <Badge badgeContent={joinedData.length()} color="error">
+            <Badge badgeContent={joinedData.length} color="error">
               Pending Request
             </Badge>
           </ListItemButton>

@@ -19,12 +19,15 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  // width: 400,
   bgcolor: "#272727",
   border: "2px solid #EF9B01",
   color: "#FFFFFF",
   boxShadow: 24,
   p: 4,
+  display: "flex",
+  flexDirection: "column",
+  gap: 2,
 };
 const Pending = () => {
   const [open, setOpen] = useState(false);
@@ -39,15 +42,17 @@ const Pending = () => {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.email === leaveItem.email && leaveItem.status === "pending");
+    const matchingUser = Users.find((user) => user.email === leaveItem.email);
     return {
       leave: leaveItem,
       user: matchingUser,
     };
   };
-  const joinedData = Leave.map((leaveItem) => joinData(leaveItem));
+  const joinedData = Leave.map(
+    (leaveItem) => leaveItem.status === "pending" && joinData(leaveItem)
+  );
 
-
+  console.log(joinedData);
   const columns = [
     {
       name: "Name",
@@ -151,7 +156,7 @@ const Pending = () => {
           width: "100%",
         }}
       >
-        <Typography>New Request</Typography>
+        <Typography sx={{ p: 1, pl: 2 }}>New Request</Typography>
         <Divider sx={{ m: 1 }} />
         <Stack
           direction={"row"}
@@ -161,14 +166,24 @@ const Pending = () => {
           gap={3}
           sx={{ p: 5 }}
         >
-          <DataTable
-            columns={columns}
-            data={joinedData}
-            fixedHeader
-            pagination
-            customStyles={customStyle}
-            onRowClicked={(row) => rowHandler(row)}
-          />
+          {joinedData[0] === false ? (
+            <Typography
+              fontSize={"32px"}
+              fontWeight={"bold"}
+              textAlign={"center"}
+            >
+              There Is No New Request
+            </Typography>
+          ) : (
+            <DataTable
+              columns={columns}
+              data={joinedData}
+              fixedHeader
+              pagination
+              customStyles={customStyle}
+              onRowClicked={(row) => rowHandler(row)}
+            />
+          )}
           <Modal
             open={open}
             onClose={() => setOpen(false)}
@@ -187,7 +202,7 @@ const Pending = () => {
                       Leave Type : {selectedRow.leave?.leave_type}
                     </Typography>
                     <Typography>
-                      Department : {selectedRow.leave?.department_id}
+                      Department : {selectedRow.user?.department_id}
                     </Typography>
                     <Typography>
                       Start Date :{" "}
@@ -204,16 +219,21 @@ const Pending = () => {
                   </Stack>
                 </Stack>
                 <Stack>
-                  <Typography>Remaining Date : {selectedRow.user?.name}</Typography>
+                  <Typography>
+                    Remaining Date : {selectedRow.user?.total_leaves} days
+                  </Typography>
                   <Typography>Reason : {selectedRow.leave?.reason}</Typography>
                   {selectedRow.leave?.photo && (
-                    <Link
-                      onClick={() =>
-                        window.open(`${selectedRow.leave?.photo}`, "_block")
-                      }
-                    >
-                      Attachment
-                    </Link>
+                    <Stack direction={"row"} gap={0.5} alignItems={"center"}>
+                      <Typography>If you went to download the </Typography>
+                      <Link
+                        onClick={() =>
+                          window.open(`${selectedRow.leave?.photo}`, "_block")
+                        }
+                      >
+                        Attachment
+                      </Link>
+                    </Stack>
                   )}
                 </Stack>
                 <Stack direction={"row"} gap={1} justifyContent={"flex-end"}>

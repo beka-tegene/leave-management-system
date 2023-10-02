@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
+import { Typography } from "@mui/material";
 
 export default function HrHome() {
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
@@ -18,13 +19,16 @@ export default function HrHome() {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.email === leaveItem.email && leaveItem.status !== "pending");
+    const matchingUser = Users.find((user) => user.email === leaveItem.email);
     return {
       leave: leaveItem,
       user: matchingUser,
     };
   };
-  const joinedData = Leave.map((leaveItem) => joinData(leaveItem));
+  const joinedData = Leave.map(
+    (leaveItem) => leaveItem.status !== "pending" && joinData(leaveItem)
+  );
+  console.log(joinedData);
   const columns = [
     {
       name: "Name",
@@ -58,7 +62,7 @@ export default function HrHome() {
     },
     {
       name: "Remaining Date",
-      selector: (row) => row.user?.studied,
+      selector: (row) => row.user?.total_leaves,
     },
   ];
   const customStyle = {
@@ -83,13 +87,19 @@ export default function HrHome() {
   };
   return (
     <Box sx={{ width: "84%", p: 2 }}>
-      <DataTable
-        columns={columns}
-        data={joinedData}
-        fixedHeader
-        pagination
-        customStyles={customStyle}
-      />
+      {joinedData[0] === false ? (
+        <Typography fontSize={"32px"} fontWeight={"bold"} textAlign={"center"}>
+          There is no Record
+        </Typography>
+      ) : (
+        <DataTable
+          columns={columns}
+          data={joinedData}
+          fixedHeader
+          pagination
+          customStyles={customStyle}
+        />
+      )}
     </Box>
   );
 }
