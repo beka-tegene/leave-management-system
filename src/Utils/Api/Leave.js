@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const Request = async (data) => {
+export const NewRequest = async (data) => {
   console.log(data);
   const useData = await axios.post(
     "http://localhost:5000/leave/request",

@@ -17,12 +17,12 @@ import {
 import { useDispatch } from "react-redux";
 import { setNewRequest } from "../../Utils/Stores/LeaveStore";
 const NewRequest = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [leaveType, setLeaveType] = useState(null);
+  const [photo, setphoto] = useState(null);
+  const [leave_type, setleave_type] = useState(null);
   const [dayLeave, setDayLeave] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [description, setDescription] = useState(null);
+  const [start_date, setstart_date] = useState(null);
+  const [end_date, setend_date] = useState(null);
+  const [reason, setreason] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
   const handleFileChange = (e) => {
@@ -31,13 +31,13 @@ const NewRequest = () => {
     if (file) {
       if (file.type === "application/pdf") {
         const fileSizeInMegabytes = file.size / (1024 * 1024); // Convert bytes to megabytes
-        setSelectedFile({
+        setphoto({
           file,
           sizeInMegabytes: fileSizeInMegabytes.toFixed(2), // Round to 2 decimal places
         });
       } else {
         setErrorMessage("Please select a PDF file.");
-        setSelectedFile(null);
+        setphoto(null);
       }
     }
   };
@@ -45,13 +45,13 @@ const NewRequest = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("selectedFile", selectedFile);
-    formData.append("leaveType", leaveType);
+    formData.append("photo", photo);
     formData.append("dayLeave", dayLeave);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("description", description);
-
+    formData.append("leave_type", leave_type);
+    formData.append("start_date", start_date);
+    formData.append("end_date", end_date);
+    formData.append("reason", reason);
+    
     await dispatch(setNewRequest(formData));
   };
   return (
@@ -96,7 +96,7 @@ const NewRequest = () => {
                 // border: "2px solid #3348BB",
                 // borderRadius: 1,
               }}
-              onChange={(e) => setLeaveType(e.target.value)}
+              onChange={(e) => setleave_type(e.target.value)}
             >
               <MenuItem value="sick leave">sick leave</MenuItem>
               <MenuItem value="annual leave">annual leave</MenuItem>
@@ -137,7 +137,7 @@ const NewRequest = () => {
                 border: "2px solid #3348BB",
                 borderRadius: 4,
               }}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={(e) => setstart_date(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required>
@@ -151,11 +151,11 @@ const NewRequest = () => {
                 border: "2px solid #3348BB",
                 borderRadius: 4,
               }}
-              onChange={(e) => setEndDate(e.target.value)}
+              onChange={(e) => setend_date(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required>
-            <FormLabel>Leave Description</FormLabel>
+            <FormLabel>Leave reason</FormLabel>
             <textarea
               style={{
                 padding: "0.5rem 1rem",
@@ -165,7 +165,7 @@ const NewRequest = () => {
                 borderRadius: 4,
                 resize: "none",
               }}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setreason(e.target.value)}
             />
           </FormControl>
           <FormControl fullWidth required size="small">
@@ -178,15 +178,15 @@ const NewRequest = () => {
               onChange={handleFileChange}
             />
           </FormControl>
-          {!selectedFile && (
+          {!photo && (
             <Typography sx={{ color: "#FF0000" }} fontSize={"12px"}>
               {errorMessage}
             </Typography>
           )}
-          {selectedFile && (
+          {photo && (
             <div>
               <Typography fontSize={"12px"}>
-                File Size: {selectedFile.sizeInMegabytes} MB
+                File Size: {photo.sizeInMegabytes} MB
               </Typography>
             </div>
           )}

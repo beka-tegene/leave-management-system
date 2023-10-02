@@ -2,11 +2,12 @@ import { call, takeLatest } from "redux-saga/effects";
 import { setLoginData, setRegisterData } from "../Stores/AuthStore";
 import { Login, Register } from "../Api/Auth";
 import { setNewRequestData } from "../Stores/LeaveStore";
-import { Request } from "../Api/Leave";
+import { NewRequest } from "../Api/Leave";
 
 export function* watchFetchLeave() {
   yield takeLatest("auth/setRegister", fetchSetRegister);
   yield takeLatest("auth/setLogin", fetchSetLogin);
+  
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
 }
 
@@ -32,7 +33,7 @@ function* fetchSetLogin(action) {
 
 function* fetchSetNewRequest(action) {
   try {
-    yield call(Request, action.payload);
+    yield call(NewRequest, action.payload);
     yield setNewRequestData();
   } catch (error) {
     console.error("Saga Error:", error);
