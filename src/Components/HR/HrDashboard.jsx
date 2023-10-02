@@ -28,15 +28,16 @@ const HrDashboard = () => {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find(
-      (user) => user.email === leaveItem.email && leaveItem.status === "pending"
-    );
+    const matchingUser = Users.find((user) => user.email === leaveItem.email);
     return {
       leave: leaveItem,
       user: matchingUser,
     };
   };
-  const joinedData = Leave.map((leaveItem) => joinData(leaveItem));
+  const pendingLeaveData = Leave.filter(
+    (leaveItem) => leaveItem.status === "pending"
+  );
+  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
   return (
     <Stack
       position={"sticky"}

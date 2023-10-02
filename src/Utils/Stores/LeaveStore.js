@@ -4,6 +4,8 @@ const initialState = {
   InputNewRequest: [],
   OutputNewRequest: [],
   OutputUsers: [],
+  InputApproveLeave: [],
+  InputDeclineLeave: [],
 };
 
 const StoreLeave = createSlice({
@@ -30,6 +32,23 @@ const StoreLeave = createSlice({
     getUsers(state, action) {
       state.OutputUsers = action.payload;
     },
+    setApproveLeaveData(state) {},
+    setApproveLeave(state, action) {
+      const newData = action.payload;
+      state.InputApproveLeave.push({
+        email: newData.email,
+        leaveId: newData.leaveId,
+        allowedLeaveDays: newData.allowedLeaveDays,
+      });
+    },
+    setDeclineLeaveData(state) {},
+    setDeclineLeave(state, action) {
+      const newData = action.payload;
+      state.InputDeclineLeave.push({
+        email: newData.email,
+        leaveId: newData.leaveId,
+      });
+    },
   },
 });
 
@@ -40,6 +59,10 @@ export const {
   getNewRequest,
   getUsersData,
   getUsers,
+  setApproveLeaveData,
+  setApproveLeave,
+  setDeclineLeaveData,
+  setDeclineLeave,
 } = StoreLeave.actions;
 
 export default StoreLeave.reducer;

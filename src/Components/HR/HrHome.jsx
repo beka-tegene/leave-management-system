@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
-import { Typography } from "@mui/material";
 
 export default function HrHome() {
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
@@ -25,10 +24,10 @@ export default function HrHome() {
       user: matchingUser,
     };
   };
-  const joinedData = Leave.map(
-    (leaveItem) => leaveItem.status !== "pending" && joinData(leaveItem)
+  const pendingLeaveData = Leave.filter(
+    (leaveItem) => leaveItem.status !== "pending"
   );
-  console.log(joinedData);
+  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
   const columns = [
     {
       name: "Name",
@@ -87,19 +86,13 @@ export default function HrHome() {
   };
   return (
     <Box sx={{ width: "84%", p: 2 }}>
-      {joinedData[0] === false ? (
-        <Typography fontSize={"32px"} fontWeight={"bold"} textAlign={"center"}>
-          There is no Record
-        </Typography>
-      ) : (
-        <DataTable
-          columns={columns}
-          data={joinedData}
-          fixedHeader
-          pagination
-          customStyles={customStyle}
-        />
-      )}
+      <DataTable
+        columns={columns}
+        data={joinedData}
+        fixedHeader
+        pagination
+        customStyles={customStyle}
+      />
     </Box>
   );
 }

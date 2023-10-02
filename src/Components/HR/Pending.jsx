@@ -11,7 +11,12 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
+import {
+  getNewRequestData,
+  getUsersData,
+  setApproveLeave,
+  setDeclineLeave,
+} from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 const style = {
@@ -48,12 +53,12 @@ const Pending = () => {
       user: matchingUser,
     };
   };
-  const joinedData = Leave.map(
-    (leaveItem) => leaveItem.status === "pending" && joinData(leaveItem)
+  const pendingLeaveData = Leave.filter(
+    (leaveItem) => leaveItem.status === "pending"
   );
+  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
 
-  console.log(joinedData);
-  const columns = [
+    const columns = [
     {
       name: "Name",
       selector: (row) => row.user?.name,
@@ -101,6 +106,7 @@ const Pending = () => {
                 backgroundColor: "#cc0000",
                 color: "#FFF",
               }}
+              onClick={() => declineHandler(row.user?.email, row.leave?._id)}
             >
               <Typography>Decline</Typography>
             </IconButton>
@@ -110,6 +116,7 @@ const Pending = () => {
                 backgroundColor: "#009900",
                 color: "#FFF",
               }}
+              onClick={() => approveHandler(row.user?.email, row?.leave)}
             >
               <Typography>Approve</Typography>
             </IconButton>
@@ -118,6 +125,25 @@ const Pending = () => {
       },
     },
   ];
+  const declineHandler = (email, leaveId) => {
+    dispatch(setDeclineLeave({ data: { email, leaveId } }));
+  };
+  const approveHandler = (email, leave) => {
+    const leaveId = leave?._id;
+    let allowedLeaveDays = 0;
+    const startDate = new Date(leave.start_date);
+    const endDate = new Date(leave.end_date);
+    const oneDay = 24 * 60 * 60 * 1000;
+    if (
+      startDate.getTime() === endDate.getTime() &&
+      leave?.duration === "0.5"
+    ) {
+      allowedLeaveDays = 0.5;
+    } else {
+      allowedLeaveDays = Math.round(Math.abs(endDate - startDate) / oneDay) + 1;
+    }
+    dispatch(setApproveLeave({ data: { email, leaveId, allowedLeaveDays } }));
+  };
   const customStyle = {
     rows: {
       style: {
@@ -166,24 +192,15 @@ const Pending = () => {
           gap={3}
           sx={{ p: 5 }}
         >
-          {joinedData[0] === false ? (
-            <Typography
-              fontSize={"32px"}
-              fontWeight={"bold"}
-              textAlign={"center"}
-            >
-              There Is No New Request
-            </Typography>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={joinedData}
-              fixedHeader
-              pagination
-              customStyles={customStyle}
-              onRowClicked={(row) => rowHandler(row)}
-            />
-          )}
+          <DataTable
+            columns={columns}
+            data={joinedData}
+            fixedHeader
+            pagination
+            customStyles={customStyle}
+            onRowClicked={(row) => rowHandler(row)}
+          />
+
           <Modal
             open={open}
             onClose={() => setOpen(false)}
@@ -243,6 +260,12 @@ const Pending = () => {
                       backgroundColor: "#cc0000",
                       color: "#FFF",
                     }}
+                    onClick={() =>
+                      declineHandler(
+                        selectedRow.user?.email,
+                        selectedRow.leave?._id
+                      )
+                    }
                   >
                     <Typography>Decline</Typography>
                   </IconButton>
@@ -252,6 +275,12 @@ const Pending = () => {
                       backgroundColor: "#009900",
                       color: "#FFF",
                     }}
+                    onClick={() =>
+                      approveHandler(
+                        selectedRow.user?.email,
+                        selectedRow?.leave
+                      )
+                    }
                   >
                     <Typography>Approve</Typography>
                   </IconButton>

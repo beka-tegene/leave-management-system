@@ -29,7 +29,7 @@ export const fetchUser = async () => {
   return useData.data;
 };
 export const approveLeave = async (data) => {
-
+console.log(data);
   //leaveId, email, allowedLeaveDays 
   const Approve = await axios.post("http://localhost:5000/leave/approve", {
     data,

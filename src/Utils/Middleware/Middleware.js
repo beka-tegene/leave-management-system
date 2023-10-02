@@ -4,9 +4,17 @@ import { Login, Register } from "../Api/Auth";
 import {
   getNewRequest,
   getUsers,
+  setApproveLeaveData,
+  setDeclineLeaveData,
   setNewRequestData,
 } from "../Stores/LeaveStore";
-import { NewRequest, fetchLeave, fetchUser } from "../Api/Leave";
+import {
+  NewRequest,
+  approveLeave,
+  declineLeave,
+  fetchLeave,
+  fetchUser,
+} from "../Api/Leave";
 
 export function* watchFetchLeave() {
   yield takeLatest("auth/setRegister", fetchSetRegister);
@@ -15,6 +23,8 @@ export function* watchFetchLeave() {
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
   yield takeLatest("leave/getNewRequestData", fetchGetNewRequest);
   yield takeLatest("leave/getUsersData", fetchGetUsers);
+  yield takeLatest("leave/setApproveLeave", fetchSetApproveLeave);
+  yield takeLatest("leave/setDeclineLeave", fetchSetDeclineLeave);
 }
 
 // Authentication and Authorization data
@@ -59,6 +69,24 @@ function* fetchGetUsers(action) {
   try {
     const backData = yield call(fetchUser, action.payload);
     yield put(getUsers(backData));
+  } catch (error) {
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetApproveLeave(action) {
+  try {
+    yield call(approveLeave, action.payload.data);
+    yield setApproveLeaveData();
+  } catch (error) {
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetDeclineLeave(action) {
+  try {
+    yield call(declineLeave, action.payload);
+    yield setDeclineLeaveData();
   } catch (error) {
     console.error("Saga Error:", error);
   }
