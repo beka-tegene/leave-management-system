@@ -19,14 +19,12 @@ export const NewRequest = async (data) => {
   }
 };
 
+export const fetchLeave = async () => {
+  const useData = await axios.get("http://localhost:5000/leave");
+  return useData.data;
+};
 
-  export const fetchLeave = async () => {
-    const useData = await axios.get("http://localhost:5000/leave");
-    return useData.leaves;
-  };
-
-
-  export const fetchUser = async () => {
-    const useData = await axios.get("http://localhost:5000/users");
-    return useData.users;
-  };
+export const fetchUser = async () => {
+  const useData = await axios.get("http://localhost:5000/users");
+  return useData.data;
+};

@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   InputNewRequest: [],
+  OutputNewRequest: [],
+  OutputUsers: [],
 };
 
 const StoreLeave = createSlice({
@@ -20,9 +22,24 @@ const StoreLeave = createSlice({
         description: newData.description,
       });
     },
+    getNewRequestData(state) {},
+    getNewRequest(state, action) {
+      state.OutputNewRequest = action.payload;
+    },
+    getUsersData(state) {},
+    getUsers(state, action) {
+      state.OutputUsers = action.payload;
+    },
   },
 });
 
-export const { setNewRequestData, setNewRequest } = StoreLeave.actions;
+export const {
+  setNewRequestData,
+  setNewRequest,
+  getNewRequestData,
+  getNewRequest,
+  getUsersData,
+  getUsers,
+} = StoreLeave.actions;
 
 export default StoreLeave.reducer;

@@ -21,6 +21,9 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUsersData } from "../../Utils/Stores/LeaveStore";
 
 function createData(name, calories, fat, carbs, protein) {
   return {
@@ -236,6 +239,12 @@ export default function HrHome() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const Users = useSelector((state) => state.StoreLeave.OutputUsers);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUsersData());
+  }, [dispatch]);
+  console.log(Users);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -245,7 +254,7 @@ export default function HrHome() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = Users?.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -293,7 +302,7 @@ export default function HrHome() {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(Users, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
@@ -301,7 +310,7 @@ export default function HrHome() {
   );
 
   return (
-    <Box sx={{ width: "84%",p:2 }}>
+    <Box sx={{ width: "84%", p: 2 }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -316,10 +325,10 @@ export default function HrHome() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={Users.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
+              {visibleRows?.map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -351,10 +360,14 @@ export default function HrHome() {
                     >
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="right">
+                      {new Date(row.employment_date).toLocaleDateString(
+                        "en-US"
+                      )}
+                    </TableCell>
+                    <TableCell align="right">{row.department_id}</TableCell>
+                    <TableCell align="right">{row.studied}</TableCell>
                   </TableRow>
                 );
               })}
