@@ -20,24 +20,6 @@ export const NewRequest = async (data) => {
 };
 
 
-export const Register = async (data) => {
-    console.log(data);
-    const useData = await axios.post(
-      "http://localhost:5000/leave/request",
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log(useData);
-    if (useData.status === 201) {
-      window.location.href = "/";
-    } else {
-      window.location.href = "/register";
-    }
-  };
   export const fetchLeave = async () => {
     const useData = await axios.get("http://localhost:5000/leave");
     return useData.leaves;
