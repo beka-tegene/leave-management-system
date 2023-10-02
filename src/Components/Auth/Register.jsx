@@ -108,7 +108,7 @@ const Register = () => {
       direction="row"
       alignItems="center"
       justifyContent="center"
-      sx={{ backgroundColor: "#F7F7F7", padding: "4rem 0" }}
+      sx={{ backgroundColor: "#171717", padding: "4rem 0" }}
     >
       <Card sx={{ width: 450 }}>
         <CardContent>

@@ -16,7 +16,7 @@ const AttendanceSystem = () => {
       alignItems={"center"}
       justifyContent={"center"}
       flexWrap={"wrap"}
-      sx={{ width: "84%", background: "#F7F7F7" }}
+      sx={{ width: "84%", background: "#171717" }}
       gap={3}
     >
       <Card

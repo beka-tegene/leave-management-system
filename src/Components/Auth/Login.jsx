@@ -50,7 +50,7 @@ const Login = () => {
   };
   return (
     <Stack
-      sx={{ height: "100dvh", backgroundColor: "#F7F7F7" }}
+      sx={{ height: "100dvh", backgroundColor: "#171717" }}
       direction={"row"}
       alignItems={"center"}
       justifyContent={"center"}

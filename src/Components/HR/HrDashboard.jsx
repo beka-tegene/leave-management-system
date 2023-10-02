@@ -84,12 +84,7 @@ const HrDashboard = () => {
               Pending Request
             </Badge>
           </ListItemButton>
-          <ListItemButton onClick={() => navigate("/hr-approved")}>
-            Approved Request
-          </ListItemButton>
-          <ListItemButton onClick={() => navigate("/hr-declined")}>
-            Declined Request
-          </ListItemButton>
+          
           <ListItemButton
             onClick={() => {
               localStorage.clear();

@@ -24,25 +24,12 @@ const NewRequest = () => {
   const [start_date, setstart_date] = useState(null);
   const [end_date, setend_date] = useState(null);
   const [reason, setreason] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
   const token = window.localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
   const dispatch = useDispatch();
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setphoto(file);
-    // if (file) {
-    //   if (file.type === "application/pdf") {
-    //     const fileSizeInMegabytes = file.size / (1024 * 1024); // Convert bytes to megabytes
-    //     setphoto({
-    //       file,
-    //       sizeInMegabytes: fileSizeInMegabytes.toFixed(2), // Round to 2 decimal places
-    //     });
-    //   } else {
-    //     setErrorMessage("Please select a PDF file.");
-    //     setphoto(null);
-    //   }
-    // }
   };
 
   const submitHandler = async (e) => {
@@ -183,11 +170,6 @@ const NewRequest = () => {
               onChange={handleFileChange}
             />
           </FormControl>
-          {!photo && (
-            <Typography sx={{ color: "#FF0000" }} fontSize={"12px"}>
-              {errorMessage}
-            </Typography>
-          )}
           {photo && (
             <div>
               <Typography fontSize={"12px"}>

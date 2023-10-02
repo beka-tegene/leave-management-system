@@ -19,7 +19,7 @@ const Dashboard = () => {
       sx={{
         top: 0,
         width: 250,
-        background: "#272727",
+        background: "#292A2C",
         height: "100dvh",
         color: "#FFFFFF",
       }}
