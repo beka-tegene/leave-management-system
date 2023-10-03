@@ -60,6 +60,9 @@ const HrDashboard = () => {
         <ImageListItem
           sx={{
             maxWidth: 90,
+            minWidth: 90,
+            minHeight: 90,
+            maxHeight: 90,
             borderRadius: "50%",
             border: "5px solid #EF9B01",
             p: 0.3,

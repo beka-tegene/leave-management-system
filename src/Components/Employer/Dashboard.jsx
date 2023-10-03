@@ -37,6 +37,9 @@ const Dashboard = () => {
         <ImageListItem
           sx={{
             maxWidth: 90,
+            minWidth: 90,
+            minHeight: 90,
+            maxHeight: 90,
             borderRadius: "50%",
             border: "5px solid #EF9B01",
             p: 0.3,
@@ -45,7 +48,7 @@ const Dashboard = () => {
           <img
             src={decodedToken?.data?.photo}
             alt="profile"
-            style={{ width: "100%", borderRadius: "50%" }}
+            style={{ minWidth: "100%", maxWidth: "100%", borderRadius: "50%" }}
           />
         </ImageListItem>
         <Typography
