@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { setLogin } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,7 +47,6 @@ const Login = () => {
       formData.append("email", email);
       formData.append("password", password);
       await dispatch(setLogin(formData));
-    
     }
   };
   return (
@@ -55,7 +56,8 @@ const Login = () => {
       alignItems={"center"}
       justifyContent={"center"}
     >
-      <Card sx={{ width: 450,background:"#323445" }}>
+      <ToastContainer />
+      <Card sx={{ width: 450, background: "#323445" }}>
         <CardContent>
           <Typography
             fontSize={"14px"}
@@ -79,7 +81,9 @@ const Login = () => {
               flexDirection: "column",
               gap: 2,
               justifyContent: "center",
-              p: 2,background:"#323445",color:"#FFFFFF"
+              p: 2,
+              background: "#323445",
+              color: "#FFFFFF",
             }}
             onSubmit={submitHandler}
           >
@@ -130,7 +134,7 @@ const Login = () => {
               <Link
                 style={{
                   textDecoration: "none",
-                  color:"#2299ff"
+                  color: "#2299ff",
                 }}
                 to={"/register"}
               >

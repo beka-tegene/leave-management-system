@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import { setRegister } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const Register = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -33,7 +35,12 @@ const Register = () => {
   const [errors, setErrors] = useState({
     fullName: "",
     email: "",
+    studied: "",
+    department: "",
+    employment_date: "",
     password: "",
+    confirmPassword: "",
+    selectedImage:""
   });
 
   const handleImageChange = (e) => {
@@ -48,6 +55,11 @@ const Register = () => {
     const newErrors = {};
     let isValid = true;
 
+    if (!selectedImage) {
+      newErrors.selectedImage = "profile Image is required";
+      isValid = false;
+    }
+
     if (!fullName) {
       newErrors.fullName = "Full Name is required";
       isValid = false;
@@ -58,8 +70,27 @@ const Register = () => {
       isValid = false;
     }
 
+    if (!studied) {
+      newErrors.studied = "Studied is required";
+      isValid = false;
+    }
+    if (!department) {
+      newErrors.department = "Department is required";
+      isValid = false;
+    }
+
+    if (!employment_date) {
+      newErrors.employment_date = "Employment Date is required";
+      isValid = false;
+    }
+
     if (!password) {
       newErrors.password = "Password is required";
+      isValid = false;
+    }
+
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required";
       isValid = false;
     }
 
@@ -93,6 +124,7 @@ const Register = () => {
 
   const resetForm = () => {
     setSelectedImage(null);
+    setSelectedImageURL(null);
     setFullName("");
     setEmail("");
     setStudied("");
@@ -110,6 +142,7 @@ const Register = () => {
       justifyContent="center"
       sx={{ backgroundColor: "#171717", padding: "4rem 0" }}
     >
+      <ToastContainer />
       <Card sx={{ width: 450, background: "#323445" }}>
         <CardContent>
           <Typography
@@ -134,7 +167,7 @@ const Register = () => {
             }}
             onSubmit={submitHandler}
           >
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <TextField
                 id="Name-basic"
                 label="Full Name"
@@ -146,7 +179,7 @@ const Register = () => {
                 helperText={errors.fullName}
               />
             </FormControl>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <TextField
                 id="email-basic"
                 label="Email"
@@ -158,7 +191,7 @@ const Register = () => {
                 helperText={errors.email}
               />
             </FormControl>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <TextField
                 id="Studied-basic"
                 label="Studied"
@@ -166,37 +199,45 @@ const Register = () => {
                 type="text"
                 value={studied}
                 onChange={(e) => setStudied(e.target.value)}
+                error={!!errors.studied}
+                helperText={errors.studied}
               />
             </FormControl>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <InputLabel id="Department-label">Department</InputLabel>
               <Select
                 labelId="Department-label"
                 label="Department"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
+                error={!!errors.department}
+                helperText={errors.department}
               >
                 <MenuItem value="Digital Economy">Digital Economy</MenuItem>
                 <MenuItem value="Big Data">Big Data</MenuItem>
               </Select>
             </FormControl>
             <InputLabel htmlFor="Employed-basic">Employed Date</InputLabel>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <Input
                 id="Employed-basic"
                 variant="outlined"
                 type="date"
                 value={employment_date}
                 onChange={(e) => setemployment_date(e.target.value)}
+                error={!!errors.employment_date}
+                helperText={errors.employment_date}
               />
             </FormControl>
             <InputLabel htmlFor="Photo-basic">Photo</InputLabel>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <Input
                 id="Photo-basic"
                 variant="outlined"
                 type="file"
                 onChange={handleImageChange}
+                error={!!errors.selectedImage}
+                helperText={errors.selectedImage}
               />
             </FormControl>
             {selectedImageURL && (
@@ -222,7 +263,7 @@ const Register = () => {
               </div>
             )}
 
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <TextField
                 id="password-basic"
                 label="Password"
@@ -234,7 +275,7 @@ const Register = () => {
                 helperText={errors.password}
               />
             </FormControl>
-            <FormControl fullWidth size="small" required>
+            <FormControl fullWidth size="small">
               <TextField
                 id="confirm-password-basic"
                 label="Confirm Password"
@@ -242,6 +283,8 @@ const Register = () => {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
               />
             </FormControl>
             <Stack mt={2}>

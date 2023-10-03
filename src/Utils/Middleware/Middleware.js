@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { setLoginData, setRegisterData } from "../Stores/AuthStore";
 import { Login, Register } from "../Api/Auth";
+import { toast } from "react-toastify";
 import {
   getNewRequest,
   getUsers,
@@ -34,6 +35,7 @@ function* fetchSetRegister(action) {
     yield call(Register, action.payload);
     yield setRegisterData();
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -43,6 +45,7 @@ function* fetchSetLogin(action) {
     yield call(Login, action.payload);
     yield setLoginData();
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -52,6 +55,7 @@ function* fetchSetNewRequest(action) {
     yield call(NewRequest, action.payload);
     yield setNewRequestData();
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -61,6 +65,7 @@ function* fetchGetNewRequest(action) {
     const backData = yield call(fetchLeave, action.payload);
     yield put(getNewRequest(backData));
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -70,6 +75,7 @@ function* fetchGetUsers(action) {
     const backData = yield call(fetchUser, action.payload);
     yield put(getUsers(backData));
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -79,6 +85,7 @@ function* fetchSetApproveLeave(action) {
     yield call(approveLeave, action.payload.data);
     yield setApproveLeaveData();
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
@@ -88,6 +95,7 @@ function* fetchSetDeclineLeave(action) {
     yield call(declineLeave, action.payload.data);
     yield setDeclineLeaveData();
   } catch (error) {
+    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }

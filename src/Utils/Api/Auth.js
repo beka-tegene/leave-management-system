@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 export const Register = async (data) => {
-  console.log(data);
   const useData = await axios.post(
     "http://localhost:5000/users/register",
     data,
@@ -47,6 +47,8 @@ export const Login = async (data) => {
       window.location.href = "/register";
     }
   } catch (error) {
+    toast.error(error.response.data.msg);
+    toast.error(error.response.data.error);
     console.error("Login Error:", error);
   }
 };
