@@ -21,11 +21,15 @@ const AttendanceSystem = () => {
   );
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getNewRequestData());
   }, [dispatch]);
+  
+  const userDataArray = Object.values(decodedToken || {});
+  
   const joinData = (leaveItem) => {
-    const matchingUser = decodedToken.data.users?.find(
+    const matchingUser = userDataArray.find(
       (user) => user.email === leaveItem.email
     );
     return {
@@ -33,11 +37,16 @@ const AttendanceSystem = () => {
       user: matchingUser,
     };
   };
+  
   const pendingLeaveData = Leave.filter(
     (leaveItem) => leaveItem.status === "pending"
   );
+  
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
+  
   const filteredJoinedData = joinedData.filter((item) => item.user);
+  
+  
   return (
     <Stack
       direction={"row"}
