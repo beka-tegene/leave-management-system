@@ -108,12 +108,12 @@ const NewRequest = () => {
               onChange={(e) => setduration(e.target.value)}
             >
               <FormControlLabel
-                value="1"
+                value="0.5"
                 control={<Radio />}
                 label="Half Day"
               />
               <FormControlLabel
-                value="0.5"
+                value="1"
                 control={<Radio />}
                 label="Full Day"
               />
