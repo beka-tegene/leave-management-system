@@ -13,7 +13,6 @@ import { getNewRequestData } from "../../Utils/Stores/LeaveStore";
 const AttendanceSystem = () => {
   const token = window.localStorage.getItem("token");
   const decodedToken = jwt_decode(token);
-  console.log(decodedToken);
   const approvedNotification = decodedToken.data?.Notification?.filter(
     (item) => item.type === "approved"
   );
@@ -38,6 +37,7 @@ const AttendanceSystem = () => {
     (leaveItem) => leaveItem.status === "pending"
   );
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
+  const filteredJoinedData = joinedData.filter((item) => item.user);
   return (
     <Stack
       direction={"row"}
@@ -56,7 +56,7 @@ const AttendanceSystem = () => {
           <CardContent>
             <Typography>Pending Request</Typography>
             <Typography fontSize={"30px"} fontWeight={"bold"}>
-              {joinedData.length}
+              {filteredJoinedData.length}
             </Typography>
           </CardContent>
         </CardActionArea>

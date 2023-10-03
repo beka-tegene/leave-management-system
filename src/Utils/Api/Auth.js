@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
+import Cookies from "js-cookie";
 export const Register = async (data) => {
   console.log(data);
   const useData = await axios.post(
@@ -30,18 +30,18 @@ export const Login = async (data) => {
 
     if (response.status === 200) {
       const { token } = response.data;
-      window.localStorage.setItem("token", token);
-
       const decodedToken = jwt_decode(token);
+      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 1 });
+
+      Cookies.set("role", decodedToken.role, { expires: 1 });
 
       if (decodedToken.role === "admin") {
         window.location.href = "/admin";
-      } else if (decodedToken.role === "user") {
-        window.location.href = "/employer-dashboard";
-      } else if (decodedToken.role === "hr") {
-        window.location.href = "/hr-dashboard";
+      } else if (decodedToken.role === "user" || decodedToken.role === "hr") {
+        window.location.href = "/dashboard";
       } else {
-        window.location.href = "/login";
+        window.location.href = "/signin";
       }
     } else {
       window.location.href = "/register";

@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import Cookies from "js-cookie";
 const Dashboard = () => {
   const employerDashboard = useMatch("/employer-dashboard");
   const employerNotification = useMatch("/employer-Notification");
@@ -85,7 +86,7 @@ const Dashboard = () => {
               background: employerDashboard ? "#FFF" : "",
               color: employerDashboard ? "#171717" : "",
             }}
-            onClick={() => navigate("/employer-dashboard")}
+            onClick={() => navigate("/dashboard")}
           >
             Dashboard
           </ListItemButton>
@@ -114,6 +115,8 @@ const Dashboard = () => {
           </ListItemButton>
           <ListItemButton
             onClick={() => {
+              Cookies.remove("role");
+              Cookies.remove("token");
               localStorage.clear();
               window.location.href = "/";
             }}

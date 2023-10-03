@@ -12,6 +12,7 @@ import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
+import Cookies from "js-cookie";
 const HrDashboard = () => {
   const hrDashboard = useMatch("/hr-dashboard");
   const hrPending = useMatch("/hr-pending");
@@ -108,7 +109,7 @@ const HrDashboard = () => {
               background: hrDashboard ? "#FFF" : "",
               color: hrDashboard ? "#171717" : "",
             }}
-            onClick={() => navigate("/hr-dashboard")}
+            onClick={() => navigate("/dashboard")}
           >
             Dashboard
           </ListItemButton>
@@ -126,6 +127,8 @@ const HrDashboard = () => {
 
           <ListItemButton
             onClick={() => {
+              Cookies.remove("role");
+              Cookies.remove("token");
               localStorage.clear();
               window.location.href = "/";
             }}
