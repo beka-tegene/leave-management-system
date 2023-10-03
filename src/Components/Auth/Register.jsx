@@ -18,7 +18,16 @@ import { setRegister } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 const Register = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
@@ -40,7 +49,7 @@ const Register = () => {
     employment_date: "",
     password: "",
     confirmPassword: "",
-    selectedImage:""
+    selectedImage: "",
   });
 
   const handleImageChange = (e) => {
@@ -203,7 +212,7 @@ const Register = () => {
                 helperText={errors.studied}
               />
             </FormControl>
-            <FormControl fullWidth size="small">
+            <FormControl fullWidth size="small" >
               <InputLabel id="Department-label">Department</InputLabel>
               <Select
                 labelId="Department-label"
@@ -212,9 +221,29 @@ const Register = () => {
                 onChange={(e) => setDepartment(e.target.value)}
                 error={!!errors.department}
                 helperText={errors.department}
+                MenuProps={MenuProps}
               >
                 <MenuItem value="Digital Economy">Digital Economy</MenuItem>
                 <MenuItem value="Big Data">Big Data</MenuItem>
+                <MenuItem value="E-Learning">E-Learning</MenuItem>
+                <MenuItem value="Cyber">Cyber</MenuItem>
+                <MenuItem value="AWS">AWS</MenuItem>
+                <MenuItem value="Finance">Finance</MenuItem>
+                <MenuItem value="Payroll">Payroll</MenuItem>
+                <MenuItem value="Website">Website</MenuItem>
+                <MenuItem value="Mobility">Mobility</MenuItem>
+                <MenuItem value="Robotics">Robotics</MenuItem>
+                <MenuItem value="Net 0 Carbon +">Net 0 Carbon +</MenuItem>
+                <MenuItem value="We Drone">We Drone</MenuItem>
+                <MenuItem value="Remote Monitoring">Remote Monitoring</MenuItem>
+                <MenuItem value="Internet of thing">Internet of thing</MenuItem>
+                <MenuItem value="Agari Tech">Agari Tech</MenuItem>
+                <MenuItem value="AI">AI</MenuItem>
+                <MenuItem value="Graphics">Graphics</MenuItem>
+                <MenuItem value="Security">Security</MenuItem>
+                <MenuItem value="Remote and sensing">
+                  Remote and sensing
+                </MenuItem>
               </Select>
             </FormControl>
             <InputLabel htmlFor="Employed-basic">Employed Date</InputLabel>
