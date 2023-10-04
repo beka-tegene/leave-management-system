@@ -59,7 +59,16 @@ const Register = () => {
     const imageURL = URL.createObjectURL(file);
     setSelectedImageURL(imageURL);
   };
-
+  const validatePassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  };
+  const validateConfirmPassword = (confirmPassword) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    return passwordRegex.test(confirmPassword);
+  };
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
@@ -96,10 +105,18 @@ const Register = () => {
     if (!password) {
       newErrors.password = "Password is required";
       isValid = false;
+    } else if (!validatePassword(password)) {
+      newErrors.password =
+        "Please enter a strong password with at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)";
+      isValid = false;
     }
 
     if (!confirmPassword) {
       newErrors.confirmPassword = "Confirm Password is required";
+      isValid = false;
+    } else if (!validateConfirmPassword(confirmPassword)) {
+      newErrors.confirmPassword =
+        "Please enter a strong password with at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)";
       isValid = false;
     }
 
@@ -212,7 +229,7 @@ const Register = () => {
                 helperText={errors.studied}
               />
             </FormControl>
-            <FormControl fullWidth size="small" >
+            <FormControl fullWidth size="small">
               <InputLabel id="Department-label">Department</InputLabel>
               <Select
                 labelId="Department-label"
@@ -258,7 +275,7 @@ const Register = () => {
                 helperText={errors.employment_date}
               />
             </FormControl>
-            <InputLabel htmlFor="Photo-basic">Photo</InputLabel>
+            <InputLabel htmlFor="Photo-basic">Profile Photo</InputLabel>
             <FormControl fullWidth size="small">
               <Input
                 id="Photo-basic"
