@@ -66,9 +66,12 @@ export const update = async (data) => {
   );
   console.log(useData);
   if (useData.status === 200) {
-    localStorage.setItem("token", useData.data.data);
-    Cookies.set("token", useData.data.data, { expires: 1 });
-    Cookies.set("role", useData.data.data.role, { expires: 1 });
+    const { token } = useData.data;
+    const decodedToken = jwt_decode(token);
+    localStorage.setItem("token", token);
+    Cookies.set("token", token, { expires: 1 });
+
+    Cookies.set("role", decodedToken.role, { expires: 1 });
     window.location.href = "/dashboard";
   } else {
     alert("error");
