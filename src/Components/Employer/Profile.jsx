@@ -224,10 +224,10 @@ const Profile = () => {
               <b>Department : </b> {decodedToken?.data?.department_id}
             </Typography>
           )}
-          {!decodedToken?.data?.photo  && (
+          {!decodedToken?.data?.photo && (
             <Typography fontSize={"13px"}>
               <b style={{ color: "red", fontSize: "15px" }}>Note : </b> you must
-              update your Profile
+              update your Profile and use your photo
             </Typography>
           )}
         </CardContent>
