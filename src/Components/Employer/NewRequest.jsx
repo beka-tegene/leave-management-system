@@ -17,6 +17,8 @@ import {
 import { useDispatch } from "react-redux";
 import { setNewRequest } from "../../Utils/Stores/LeaveStore";
 import jwt_decode from "jwt-decode";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const NewRequest = () => {
   const [photo, setphoto] = useState(null);
   const [leave_type, setleave_type] = useState(null);
@@ -51,9 +53,10 @@ const NewRequest = () => {
       direction={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      sx={{ p: 2 ,background:"#171717"}}
+      sx={{ p: 2, background: "#171717" }}
       gap={2}
     >
+      <ToastContainer />
       <Paper
         component={"form"}
         sx={{
@@ -189,8 +192,26 @@ const NewRequest = () => {
           sx={{ width: "100%" }}
           justifyContent={"flex-end"}
         >
-          <Button type="reset" variant="contained" sx={{background:"#323445" , "&:hover":{background:"#32344590"}}}>Cancel</Button>
-          <Button type="submit" variant="contained" sx={{background:"#005500" , "&:hover":{background:"#00550090"}}}>Request</Button>
+          <Button
+            type="reset"
+            variant="contained"
+            sx={{
+              background: "#323445",
+              "&:hover": { background: "#32344590" },
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              background: "#005500",
+              "&:hover": { background: "#00550090" },
+            }}
+          >
+            Request
+          </Button>
         </Stack>
       </Paper>
     </Stack>

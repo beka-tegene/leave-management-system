@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import { setUpdate } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -115,6 +117,7 @@ const Profile = () => {
       sx={{ p: 2, background: "#171717", color: "white", minHeight: "90dvh" }}
       gap={2}
     >
+      <ToastContainer />
       <Card sx={{ position: "fixed", right: "2%", top: "15%" }}>
         <CardContent>
           {decodedToken?.data?.photo && (
@@ -149,7 +152,9 @@ const Profile = () => {
           </Typography>
           <Typography>
             <b>Employment Date : </b>{" "}
-            {new Date(decodedToken?.data?.employment_date).toLocaleDateString("en-US")}
+            {new Date(decodedToken?.data?.employment_date).toLocaleDateString(
+              "en-US"
+            )}
           </Typography>
           {decodedToken?.data?.email && (
             <Typography>

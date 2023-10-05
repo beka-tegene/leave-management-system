@@ -3,6 +3,8 @@ import { Button, FormControl, Paper, Stack, TextField } from "@mui/material";
 import { setPassword } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 const ChangePassword = () => {
   const token = window.localStorage.getItem("token");
 
@@ -90,6 +92,7 @@ const ChangePassword = () => {
       sx={{ p: 2, background: "#171717", color: "white", minHeight: "90dvh" }}
       gap={2}
     >
+      <ToastContainer />
       <Paper
         component="form"
         sx={{
