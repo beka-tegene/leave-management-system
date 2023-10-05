@@ -30,6 +30,7 @@ export default function HrHome() {
     (leaveItem) => leaveItem.status !== "pending"
   );
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
+  const reversedJoinedData = [...joinedData].reverse();
   const columns = [
     {
       name: "Name",
@@ -110,7 +111,7 @@ export default function HrHome() {
       <ExcelExport data={joinedData} />
       <DataTable
         columns={columns}
-        data={joinedData}
+        data={reversedJoinedData}
         fixedHeader
         pagination
         customStyles={customStyle}

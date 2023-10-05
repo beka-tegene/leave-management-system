@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Badge, Stack } from "@mui/material";
 import React from "react";
 import { CSVLink } from "react-csv";
 
@@ -75,7 +75,7 @@ const ExcelExport = ({ data }) => {
           borderRadius: 5,
         }}
       >
-        Download Monthly Report Excel
+        <Badge>Download Monthly Report Excel</Badge>
       </CSVLink>
     </Stack>
   );
