@@ -77,3 +77,31 @@ export const update = async (data) => {
     alert("error");
   }
 };
+export const updatePassword = async (data) => {
+  try {
+    const response = await axios.post("http://localhost:5000/users/changePassword",
+    
+    data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+
+
+      window.location.href = "/register";
+     
+    } else if(response.status === 401) {
+      console.log(response);
+     
+    }else{
+      console.log(response);
+
+    }
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    toast.error(error.response.data.error);
+    console.error("Login Error:", error);
+  }
+};
