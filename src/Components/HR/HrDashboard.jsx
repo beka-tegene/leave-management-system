@@ -8,18 +8,16 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useMatch, useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
+import logo from "../../Image/logo.jpeg";
+
 import Cookies from "js-cookie";
 const HrDashboard = () => {
   const hrDashboard = useMatch("/hr-dashboard");
   const hrPending = useMatch("/hr-pending");
   const navigate = useNavigate();
-  const token = window.localStorage.getItem("token");
-
-  const decodedToken = jwt_decode(token);
 
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
@@ -48,12 +46,13 @@ const HrDashboard = () => {
         width: 250,
         background: "#222c65",
         height: "100dvh",
-        color: "#FFFFFF",
+        color: "#FFFFFF", 
         top: 0,
       }}
     >
       <Stack
         sx={{ height: "30dvh" }}
+        direction={"row"}
         alignItems={"center"}
         justifyContent={"center"}
       >
@@ -63,30 +62,30 @@ const HrDashboard = () => {
             minWidth: 90,
             minHeight: 90,
             maxHeight: 90,
-            borderRadius: "50%",
-            border: "5px solid #EF9B01",
             p: 0.3,
           }}
         >
           <img
-            src={decodedToken?.data?.photo}
+            src={logo}
             alt="profile"
-            style={{ width: "100%", borderRadius: "50%" }}
+            style={{ minWidth: "100%", maxWidth: "100%" }}
           />
         </ImageListItem>
-        <Typography
+        <Stack>
+          <Typography
+            fontSize="14px"
+            color="#FFFFFF"
+          >
+            Dan Energy
+          </Typography>
+          <Typography
           fontSize="13px"
-          color="#FFFFFF"
-          sx={{ textAlign: "center" }}
-        >
-          {decodedToken?.data?.name}
-        </Typography>
-        <Typography
-          color="#FFFFFF"
-          sx={{ textAlign: "center", textTransform: "capitalize" }}
-        >
-          {decodedToken?.data?.role}
-        </Typography>
+            color="#FFFFFF"
+            sx={{  textTransform: "capitalize" }}
+          >
+            Leave Management System
+          </Typography>
+        </Stack>
       </Stack>
       <Stack
         sx={{

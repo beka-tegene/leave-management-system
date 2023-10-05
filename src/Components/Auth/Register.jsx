@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -338,18 +337,6 @@ const Register = () => {
                 Register
               </Button>
             </Stack>
-            <Typography align="center" mt={2}>
-              Already have an account?{" "}
-              <Link
-                to="/"
-                style={{
-                  textDecoration: "none",
-                  color: "#2299ff",
-                }}
-              >
-                Login
-              </Link>
-            </Typography>
           </Paper>
         </CardContent>
       </Card>

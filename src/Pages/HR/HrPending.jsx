@@ -2,12 +2,16 @@ import { Stack } from "@mui/material";
 import React from "react";
 import HrDashboard from "../../Components/HR/HrDashboard";
 import Pending from "../../Components/HR/Pending";
+import NavbarHr from "../../Components/HR/NavbarHr";
 
 const HrPending = () => {
   return (
     <Stack direction={"row"}>
       <HrDashboard />
-      <Pending />
+      <Stack width={"100%"}>
+        <NavbarHr />
+        <Pending />
+      </Stack>
     </Stack>
   );
 };

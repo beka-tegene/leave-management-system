@@ -117,6 +117,7 @@ const Login = () => {
                 textDecoration: "none",
                 color: "#2299ff",
               }}
+              
             >
               Forget password
             </Link>
@@ -125,22 +126,6 @@ const Login = () => {
                 Login
               </Button>
             </Stack>
-            <Typography
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              you don't have an account?
-              <Link
-                style={{
-                  textDecoration: "none",
-                  color: "#2299ff",
-                }}
-                to={"/register"}
-              >
-                Sign up
-              </Link>
-            </Typography>
           </Paper>
         </CardContent>
       </Card>

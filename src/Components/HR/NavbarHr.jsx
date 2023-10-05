@@ -1,38 +1,16 @@
-import {
-  ImageListItem,
-  Menu,
-  MenuItem,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { ImageListItem, Stack, Typography } from "@mui/material";
 import React from "react";
 import jwt_decode from "jwt-decode";
-import { ArrowDropDown } from "@mui/icons-material";
-import { useState } from "react";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import profile from "../../Image/avater.jpg";
-const Navbar = () => {
+const NavbarHr = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
-  const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Stack
       sx={{
         height: "10vh",
-        background: "#292A2C",
+        background: "#222c65",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 10px",
@@ -47,12 +25,7 @@ const Navbar = () => {
         sx={{
           m: 0.5,
           mr: 2,
-          cursor: "pointer",
-          "&:hover": {
-            color: "#EF9B01",
-          },
         }}
-        onClick={handleClick}
         direction="row"
         alignItems="center"
       >
@@ -97,32 +70,9 @@ const Navbar = () => {
             />
           )}
         </ImageListItem>
-        <ArrowDropDown sx={{ color: "white" }} />
       </Stack>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-        <MenuItem onClick={() => navigate("/change-password")}>Change Password</MenuItem>
-        <MenuItem
-          onClick={() => {
-            Cookies.remove("role");
-            Cookies.remove("token");
-            localStorage.clear();
-            window.location.href = "/";
-          }}
-        >
-          Logout
-        </MenuItem>
-      </Menu>
     </Stack>
   );
 };
 
-export default Navbar;
+export default NavbarHr;
