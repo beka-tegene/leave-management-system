@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   InputRegister: [],
   InputLogin: [],
+  InputUpdate: [],
 };
 
 const StoreAuth = createSlice({
@@ -30,10 +31,21 @@ const StoreAuth = createSlice({
         password: newData.password,
       });
     },
+    setUpdateData(state) {},
+    setUpdate(state, action) {
+      const newData = action.payload;
+      state.InputUpdate.push({
+        photo: newData.photo,
+        email: newData.email,
+        studied: newData.studied,
+        department: newData.department,
+        Id: newData.Id,
+      });
+    },
   },
 });
 
-export const { setRegister, setRegisterData, setLoginData, setLogin } =
+export const { setRegister, setRegisterData, setLoginData, setLogin ,setUpdate,setUpdateData} =
   StoreAuth.actions;
 
 export default StoreAuth.reducer;

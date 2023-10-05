@@ -62,7 +62,7 @@ const ExcelExport = ({ data }) => {
   });
   const reversedMonthlyReport = [...MonthlyReport].reverse();
   return (
-    <Stack alignItems={"flex-end"} py={2}>
+    <Stack alignItems={"flex-end"} py={2} pr={2}>
       <CSVLink
         data={reversedMonthlyReport}
         headers={headers}
@@ -75,7 +75,9 @@ const ExcelExport = ({ data }) => {
           borderRadius: 5,
         }}
       >
-        <Badge>Download Monthly Report Excel</Badge>
+        <Badge badgeContent={`${currentDate.getMonth() + 1}th month`} color="primary">
+          Download Monthly Report Excel
+        </Badge>
       </CSVLink>
     </Stack>
   );

@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { setRegister } from "../../Utils/Stores/AuthStore";
+import { setRegister, setUpdate } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,7 +32,7 @@ const Profile = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
-
+  const Id = decodedToken?.data?.Id
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
 
@@ -92,8 +92,9 @@ const Profile = () => {
       formData.append("email", email);
       formData.append("studied", studied);
       formData.append("department", department);
+      formData.append("Id", Id);
 
-      await dispatch(setRegister(formData));
+      await dispatch(setUpdate(formData));
       alert("Registration successful!");
       resetForm();
     }
