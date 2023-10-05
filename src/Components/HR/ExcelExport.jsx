@@ -56,13 +56,13 @@ const ExcelExport = ({ data }) => {
     // Calculate the difference in months between the created date and the last month
     const monthDifference = (currentDate.getFullYear() - createdDate.getFullYear()) * 12 + (currentDate.getMonth() - createdDate.getMonth());
   
-    return monthDifference <= 1;
+    return monthDifference < 1;
   });
   console.log(MonthlyReport);
   return (
     <Stack alignItems={"flex-end"} py={2}>
       <CSVLink
-        data={mergedData}
+        data={MonthlyReport}
         headers={headers}
         filename="monthLeaveManagement.csv"
         style={{
