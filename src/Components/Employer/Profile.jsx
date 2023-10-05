@@ -32,7 +32,7 @@ const Profile = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
-  const userId = decodedToken?.data?._id
+  const userId = decodedToken?.data?._id;
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
 
@@ -149,8 +149,8 @@ const Profile = () => {
             <b>Name : </b> {decodedToken?.data?.name}
           </Typography>
           <Typography>
-            <b>Employment Data : </b>{" "}
-            {moment(decodedToken?.data?.employment_date).fromNow()}
+            <b>Employment Date : </b>{" "}
+            {new Date(decodedToken?.data?.employment_date).toLocaleDateString("en-US")}
           </Typography>
           {decodedToken?.data?.email && (
             <Typography>
