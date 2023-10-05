@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { Button, FormControl, Paper, Stack, TextField } from "@mui/material";
 import { setPassword } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
-
+import jwt_decode from "jwt-decode";
 const ChangePassword = () => {
+  const token = window.localStorage.getItem("token");
+
+  const decodedToken = jwt_decode(token);
+  const userId = decodedToken?.data?._id;
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setPasswords] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -65,7 +69,9 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      await dispatch(setPassword({ data: { oldPassword, newPassword } }));
+      await dispatch(
+        setPassword({ data: { oldPassword, newPassword, userId } })
+      );
       resetForm();
     }
   };
