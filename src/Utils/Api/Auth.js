@@ -65,7 +65,7 @@ export const update = async (data) => {
     }
   );
   console.log(useData);
-  if (useData.status === 201) {
+  if (useData.status === 200) {
     localStorage.setItem("token", useData.data.data);
     Cookies.set("token", useData.data.data, { expires: 1 });
     Cookies.set("role", useData.data.data.role, { expires: 1 });
