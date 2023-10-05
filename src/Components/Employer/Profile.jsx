@@ -200,7 +200,7 @@ const Profile = () => {
             </Stack>
           )}
           <Typography>
-            <b>ID : </b> {decodedToken.data.Id}
+            <b>ID : </b> {decodedToken?.data?.Id}
           </Typography>
           <Typography>
             <b>Name : </b> {decodedToken?.data?.name}

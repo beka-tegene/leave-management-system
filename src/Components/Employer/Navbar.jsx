@@ -11,6 +11,7 @@ import { ArrowDropDown } from "@mui/icons-material";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import profile from "../../Image/avater.jpg";
 const Navbar = () => {
   const token = window.localStorage.getItem("token");
 
@@ -67,18 +68,34 @@ const Navbar = () => {
             overflow: "hidden",
           }}
         >
-          <img
-            src={decodedToken?.data?.photo}
-            alt="profile"
-            style={{
-              minWidth: 55,
-              maxWidth: 55,
-              minHeight: 55,
-              maxHeight: 55,
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
+          {decodedToken?.data?.photo && (
+            <img
+              src={decodedToken?.data?.photo}
+              alt="profile"
+              style={{
+                minWidth: 55,
+                maxWidth: 55,
+                minHeight: 55,
+                maxHeight: 55,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+          )}
+          {!decodedToken?.data?.photo && (
+            <img
+              src={profile}
+              alt="profile"
+              style={{
+                minWidth: 55,
+                maxWidth: 55,
+                minHeight: 55,
+                maxHeight: 55,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+          )}
         </ImageListItem>
         <ArrowDropDown sx={{ color: "white" }} />
       </Stack>
@@ -91,7 +108,7 @@ const Navbar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={()=> navigate("/profile")}>Profile</MenuItem>
+        <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
         <MenuItem>Change Password</MenuItem>
         <MenuItem
           onClick={() => {
