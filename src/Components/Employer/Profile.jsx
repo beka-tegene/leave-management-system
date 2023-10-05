@@ -175,25 +175,32 @@ const Profile = () => {
     >
       <Card sx={{ position: "fixed", right: "2%", top: "15%" }}>
         <CardContent>
-          <Stack>
-            <Typography>Profile Photo</Typography>
-            <ImageListItem
-              sx={{ maxWidth: 120, minWidth: 120, minHeight: 120, maxHeight: 120 }}
-            >
-              <img
-                src={decodedToken?.data?.photo}
-                alt="profile"
-                style={{
-                  minWidth: 115,
-                  maxWidth: 115,
-                  minHeight: 115,
-                  maxHeight: 115,
+          {decodedToken?.data?.photo && (
+            <Stack>
+              <Typography>Profile Photo</Typography>
+              <ImageListItem
+                sx={{
+                  maxWidth: 120,
+                  minWidth: 120,
+                  minHeight: 120,
+                  maxHeight: 120,
                 }}
-              />
-            </ImageListItem>
-          </Stack>
+              >
+                <img
+                  src={decodedToken?.data?.photo}
+                  alt="profile"
+                  style={{
+                    minWidth: 115,
+                    maxWidth: 115,
+                    minHeight: 115,
+                    maxHeight: 115,
+                  }}
+                />
+              </ImageListItem>
+            </Stack>
+          )}
           <Typography>
-            <b>ID : </b> {decodedToken?.date?._id}
+            <b>ID : </b> {decodedToken?.date?.Id}
           </Typography>
           <Typography>
             <b>Name : </b> {decodedToken?.data?.name}
@@ -202,15 +209,27 @@ const Profile = () => {
             <b>Employment Data : </b>{" "}
             {moment(decodedToken?.data?.employment_date).fromNow()}
           </Typography>
-          <Typography>
-            <b>Email : </b> {decodedToken?.data?.email}
-          </Typography>
-          <Typography>
-            <b>Studied : </b> {decodedToken?.data?.studied}
-          </Typography>
-          <Typography>
-            <b>Department : </b> {decodedToken?.data?.department_id}
-          </Typography>
+          {decodedToken?.data?.email && (
+            <Typography>
+              <b>Email : </b> {decodedToken?.data?.email}
+            </Typography>
+          )}
+          {decodedToken?.data?.studied && (
+            <Typography>
+              <b>Studied : </b> {decodedToken?.data?.studied}
+            </Typography>
+          )}
+          {decodedToken?.data?.department_id && (
+            <Typography>
+              <b>Department : </b> {decodedToken?.data?.department_id}
+            </Typography>
+          )}
+          {decodedToken?.data?.photo === null && (
+            <Typography fontSize={"13px"}>
+              <b style={{ color: "red", fontSize: "15px" }}>Note : </b> you must
+              update your Profile
+            </Typography>
+          )}
         </CardContent>
       </Card>
       <Paper
