@@ -200,7 +200,7 @@ const Profile = () => {
             </Stack>
           )}
           <Typography>
-            <b>ID : </b> {decodedToken?.date?.Id}
+            <b>ID : </b> {decodedToken.date.Id}
           </Typography>
           <Typography>
             <b>Name : </b> {decodedToken?.data?.name}
@@ -224,7 +224,7 @@ const Profile = () => {
               <b>Department : </b> {decodedToken?.data?.department_id}
             </Typography>
           )}
-          {decodedToken?.data?.photo === null && (
+          {!decodedToken?.data?.photo  && (
             <Typography fontSize={"13px"}>
               <b style={{ color: "red", fontSize: "15px" }}>Note : </b> you must
               update your Profile
