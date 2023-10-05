@@ -53,12 +53,10 @@ export const Login = async (data) => {
   }
 };
 
-
-
 export const update = async (data) => {
   console.log(data);
   const useData = await axios.post(
-    "http://localhost:5000/user/updateUser",
+    "http://localhost:5000/users/updateUser",
     data,
     {
       headers: {
@@ -68,6 +66,11 @@ export const update = async (data) => {
   );
   console.log(useData);
   if (useData.status === 201) {
+    const { token } = useData.data;
+    const decodedToken = jwt_decode(token);
+    localStorage.setItem("token", token);
+    Cookies.set("token", token, { expires: 1 });
+    Cookies.set("role", decodedToken.role, { expires: 1 });
     window.location.href = "/dashboard";
   } else {
     alert("error");

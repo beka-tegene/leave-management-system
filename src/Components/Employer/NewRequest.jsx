@@ -150,7 +150,7 @@ const NewRequest = () => {
             />
           </FormControl>
           <FormControl fullWidth required>
-            <FormLabel>Leave reason</FormLabel>
+            <FormLabel>Title</FormLabel>
             <textarea
               style={{
                 padding: "0.5rem 1rem",
