@@ -79,23 +79,25 @@ export const update = async (data) => {
 };
 export const updatePassword = async (data) => {
   try {
-    const response = await axios.post("http://localhost:5000/users/changePassword",
-    
-    data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await axios.post(
+      "http://localhost:5000/users/changePassword",
+
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (response.status === 200) {
       window.location.href = "/dashboard";
-     
-    } else if(response.status === 401) {
+    } else if (response.status === 401) {
       console.log(response);
-     
-    }else{
+      toast.error(error.response.data.message);
+    } else {
       console.log(response);
-
+      toast.error(error.response.data.message);
     }
   } catch (error) {
     toast.error(error.response.data.msg);
