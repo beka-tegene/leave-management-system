@@ -36,7 +36,7 @@ const NewRequest = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("_id", decodedToken.data._id);
-    formData.append("email", decodedToken.data.email);
+    formData.append("Id", decodedToken.data.Id);
     formData.append("photo", photo);
     formData.append("duration", duration);
     formData.append("leave_type", leave_type);

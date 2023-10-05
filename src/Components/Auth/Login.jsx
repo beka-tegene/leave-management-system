@@ -89,8 +89,8 @@ const Login = () => {
           >
             <FormControl sx={{ width: "100%" }} size="small" required>
               <TextField
-                id="email-basic"
-                label="Email"
+                id="Id-basic"
+                label="ID"
                 variant="outlined"
                 type="text"
                 value={email}
@@ -117,7 +117,6 @@ const Login = () => {
                 textDecoration: "none",
                 color: "#2299ff",
               }}
-              
             >
               Forget password
             </Link>

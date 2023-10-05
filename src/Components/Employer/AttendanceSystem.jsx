@@ -30,7 +30,7 @@ const AttendanceSystem = () => {
   
   const joinData = (leaveItem) => {
     const matchingUser = userDataArray.find(
-      (user) => user.email === leaveItem.email
+      (user) => user.Id === leaveItem.Id
     );
     return {
       leave: leaveItem,

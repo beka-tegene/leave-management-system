@@ -47,7 +47,7 @@ const Pending = () => {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.email === leaveItem.email);
+    const matchingUser = Users.find((user) => user.Id === leaveItem.Id);
     return {
       leave: leaveItem,
       user: matchingUser,
@@ -106,7 +106,7 @@ const Pending = () => {
                 backgroundColor: "#cc0000",
                 color: "#FFF",
               }}
-              onClick={() => declineHandler(row.user?.email, row.leave?._id)}
+              onClick={() => declineHandler(row.user?.Id, row.leave?._id)}
             >
               <Typography>Decline</Typography>
             </IconButton>
@@ -116,7 +116,7 @@ const Pending = () => {
                 backgroundColor: "#009900",
                 color: "#FFF",
               }}
-              onClick={() => approveHandler(row.user?.email, row?.leave)}
+              onClick={() => approveHandler(row.user?.Id, row?.leave)}
             >
               <Typography>Approve</Typography>
             </IconButton>
@@ -125,10 +125,10 @@ const Pending = () => {
       },
     },
   ];
-  const declineHandler = (email, leaveId) => {
-    dispatch(setDeclineLeave({ data: { email, leaveId } }));
+  const declineHandler = (Id, leaveId) => {
+    dispatch(setDeclineLeave({ data: { Id, leaveId } }));
   };
-  const approveHandler = (email, leave) => {
+  const approveHandler = (Id, leave) => {
     const leaveId = leave?._id;
     let allowedLeaveDays = 0;
     const startDate = new Date(leave.start_date);
@@ -142,7 +142,7 @@ const Pending = () => {
     } else {
       allowedLeaveDays = Math.round(Math.abs(endDate - startDate) / oneDay) + 1;
     }
-    dispatch(setApproveLeave({ data: { email, leaveId, allowedLeaveDays } }));
+    dispatch(setApproveLeave({ data: { Id, leaveId, allowedLeaveDays } }));
   };
   const customStyle = {
     rows: {
@@ -265,7 +265,7 @@ const Pending = () => {
                     }}
                     onClick={() =>
                       declineHandler(
-                        selectedRow.user?.email,
+                        selectedRow.user?.Id,
                         selectedRow.leave?._id
                       )
                     }
@@ -280,7 +280,7 @@ const Pending = () => {
                     }}
                     onClick={() =>
                       approveHandler(
-                        selectedRow.user?.email,
+                        selectedRow.user?.Id,
                         selectedRow?.leave
                       )
                     }

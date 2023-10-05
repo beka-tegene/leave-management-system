@@ -20,7 +20,7 @@ export default function HrHome() {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.email === leaveItem.email);
+    const matchingUser = Users.find((user) => user.Id === leaveItem.Id);
     return {
       leave: leaveItem,
       user: matchingUser,
