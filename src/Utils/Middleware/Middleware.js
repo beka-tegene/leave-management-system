@@ -82,7 +82,7 @@ function* fetchSetNewRequest(action) {
     yield call(NewRequest, action.payload);
     yield setNewRequestData();
   } catch (error) {
-    toast.error(error.response.data.msg);
+    toast.error(error.response.data.error);
     console.error("Saga Error:", error);
   }
 }
