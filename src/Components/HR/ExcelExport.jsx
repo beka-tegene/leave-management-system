@@ -50,19 +50,21 @@ const ExcelExport = ({ data }) => {
   const currentDate = new Date();
   const lastMonth = new Date();
   lastMonth.setMonth(currentDate.getMonth() - 1); // Calculate the date for the last month
-  
+
   const MonthlyReport = mergedData?.filter((item) => {
     const createdDate = new Date(item.leave.created_at);
     // Calculate the difference in months between the created date and the last month
-    const monthDifference = (currentDate.getFullYear() - createdDate.getFullYear()) * 12 + (currentDate.getMonth() - createdDate.getMonth());
-  
+    const monthDifference =
+      (currentDate.getFullYear() - createdDate.getFullYear()) * 12 +
+      (currentDate.getMonth() - createdDate.getMonth());
+
     return monthDifference < 1;
   });
-  console.log(MonthlyReport);
+  const reversedMonthlyReport = [...MonthlyReport].reverse();
   return (
     <Stack alignItems={"flex-end"} py={2}>
       <CSVLink
-        data={MonthlyReport}
+        data={reversedMonthlyReport}
         headers={headers}
         filename="monthLeaveManagement.csv"
         style={{
