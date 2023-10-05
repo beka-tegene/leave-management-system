@@ -39,7 +39,7 @@ const StoreAuth = createSlice({
         email: newData.email,
         studied: newData.studied,
         department: newData.department,
-        Id: newData.Id,
+        userId: newData.userId,
       });
     },
   },

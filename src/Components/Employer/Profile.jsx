@@ -32,7 +32,7 @@ const Profile = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
-  const Id = decodedToken?.data?.Id
+  const userId = decodedToken?.data?._id
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
 
@@ -92,7 +92,7 @@ const Profile = () => {
       formData.append("email", email);
       formData.append("studied", studied);
       formData.append("department", department);
-      formData.append("Id", Id);
+      formData.append("userId", userId);
 
       await dispatch(setUpdate(formData));
       alert("Registration successful!");
