@@ -5,7 +5,7 @@ import {
   setRegisterData,
   setUpdateData,
 } from "../Stores/AuthStore";
-import { Login, Register, update } from "../Api/Auth";
+import { Login, Register, update, updatePassword } from "../Api/Auth";
 import { toast } from "react-toastify";
 import {
   getNewRequest,
@@ -59,7 +59,7 @@ function* fetchSetUpdate(action) {
 
 function* fetchSetPassword(action) {
   try {
-    yield call(update, action.payload.data);
+    yield call(updatePassword, action.payload.data);
     yield setPasswordData();
   } catch (error) {
     toast.error(error.response.data.msg);

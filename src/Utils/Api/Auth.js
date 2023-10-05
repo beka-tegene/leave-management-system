@@ -88,9 +88,7 @@ export const updatePassword = async (data) => {
     });
 
     if (response.status === 200) {
-
-
-      window.location.href = "/register";
+      window.location.href = "/dashboard";
      
     } else if(response.status === 401) {
       console.log(response);
