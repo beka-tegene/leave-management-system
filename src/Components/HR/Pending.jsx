@@ -174,7 +174,7 @@ const Pending = () => {
       alignItems={"flex-start"}
       justifyContent={"flex-start"}
       flexWrap={"wrap"}
-      sx={{ width: "84%", background: "#171717", p: 2 }}
+      sx={{ minHeight: "90dvh", background: "#171717", p: 2 }}
       gap={3}
     >
       <Card

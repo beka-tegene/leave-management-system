@@ -17,7 +17,7 @@ const ExcelExport = ({ data }) => {
     { label: "how many times send Request", key: "count" },
   ];
   const emailStatusCounts = new Map();
-
+  // console.log(data.leave?.created_at);
   const mergedData = data.reduce((result, item) => {
     const userEmail = item.leave ? item.leave.email : undefined;
     const userStatus = item.leave ? item.leave.status : undefined;
@@ -46,11 +46,25 @@ const ExcelExport = ({ data }) => {
     }
     return result;
   }, []);
-  console.log(mergedData);
+
+  const currentDate = new Date();
+  const lastMonth = new Date();
+  lastMonth.setMonth(currentDate.getMonth() - 1); // Calculate the date for the last month
+
+  const MonthlyReport = mergedData?.filter((item) => {
+    const createdDate = new Date(item.leave.created_at);
+    // Calculate the difference in months between the created date and the last month
+    const monthDifference =
+      (currentDate.getFullYear() - createdDate.getFullYear()) * 12 +
+      (currentDate.getMonth() - createdDate.getMonth());
+
+    return monthDifference < 1;
+  });
+  const reversedMonthlyReport = [...MonthlyReport].reverse();
   return (
     <Stack alignItems={"flex-end"} py={2}>
       <CSVLink
-        data={mergedData}
+        data={reversedMonthlyReport}
         headers={headers}
         filename="monthLeaveManagement.csv"
         style={{
@@ -61,7 +75,7 @@ const ExcelExport = ({ data }) => {
           borderRadius: 5,
         }}
       >
-        Download Excel
+        Download Monthly Report Excel
       </CSVLink>
     </Stack>
   );

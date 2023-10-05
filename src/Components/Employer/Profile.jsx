@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import jwt_decode from "jwt-decode";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import {
   Button,
   Card,
@@ -37,23 +36,15 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImageURL, setSelectedImageURL] = useState(null);
 
-  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [studied, setStudied] = useState("");
   const [department, setDepartment] = useState("");
-  const [employment_date, setemployment_date] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
 
   const [errors, setErrors] = useState({
-    fullName: "",
     email: "",
     studied: "",
     department: "",
-    employment_date: "",
-    password: "",
-    confirmPassword: "",
     selectedImage: "",
   });
 
@@ -64,27 +55,13 @@ const Profile = () => {
     const imageURL = URL.createObjectURL(file);
     setSelectedImageURL(imageURL);
   };
-  const validatePassword = (password) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    return passwordRegex.test(password);
-  };
-  const validateConfirmPassword = (confirmPassword) => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    return passwordRegex.test(confirmPassword);
-  };
+
   const validateForm = () => {
     const newErrors = {};
     let isValid = true;
 
     if (!selectedImage) {
       newErrors.selectedImage = "profile Image is required";
-      isValid = false;
-    }
-
-    if (!fullName) {
-      newErrors.fullName = "Full Name is required";
       isValid = false;
     }
 
@@ -102,34 +79,6 @@ const Profile = () => {
       isValid = false;
     }
 
-    if (!employment_date) {
-      newErrors.employment_date = "Employment Date is required";
-      isValid = false;
-    }
-
-    if (!password) {
-      newErrors.password = "Password is required";
-      isValid = false;
-    } else if (!validatePassword(password)) {
-      newErrors.password =
-        "Please enter a strong password with at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)";
-      isValid = false;
-    }
-
-    if (!confirmPassword) {
-      newErrors.confirmPassword = "Confirm Password is required";
-      isValid = false;
-    } else if (!validateConfirmPassword(confirmPassword)) {
-      newErrors.confirmPassword =
-        "Please enter a strong password with at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)";
-      isValid = false;
-    }
-
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-      isValid = false;
-    }
-
     setErrors(newErrors);
     return isValid;
   };
@@ -140,12 +89,9 @@ const Profile = () => {
     if (validateForm()) {
       const formData = new FormData();
       formData.append("photo", selectedImage);
-      formData.append("fullName", fullName);
       formData.append("email", email);
       formData.append("studied", studied);
-      formData.append("employment_date", employment_date);
       formData.append("department", department);
-      formData.append("password", password);
 
       await dispatch(setRegister(formData));
       alert("Registration successful!");
@@ -156,13 +102,9 @@ const Profile = () => {
   const resetForm = () => {
     setSelectedImage(null);
     setSelectedImageURL(null);
-    setFullName("");
     setEmail("");
     setStudied("");
     setDepartment("");
-    setemployment_date("");
-    setPassword("");
-    setConfirmPassword("");
     setErrors({});
   };
   return (
