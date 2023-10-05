@@ -16,7 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { setRegister, setUpdate } from "../../Utils/Stores/AuthStore";
+import { setUpdate } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

@@ -4,6 +4,7 @@ const initialState = {
   InputRegister: [],
   InputLogin: [],
   InputUpdate: [],
+  InputPassword: [],
 };
 
 const StoreAuth = createSlice({
@@ -42,10 +43,27 @@ const StoreAuth = createSlice({
         userId: newData.userId,
       });
     },
+    setPasswordData(state) {},
+    setPassword(state, action) {
+      const newData = action.payload;
+      state.InputPassword.push({
+        oldPassword: newData.oldPassword,
+        newPassword: newData.newPassword,
+        userId: newData.userId,
+      });
+    },
   },
 });
 
-export const { setRegister, setRegisterData, setLoginData, setLogin ,setUpdate,setUpdateData} =
-  StoreAuth.actions;
+export const {
+  setRegister,
+  setRegisterData,
+  setLoginData,
+  setLogin,
+  setUpdate,
+  setUpdateData,
+  setPasswordData,
+  setPassword,
+} = StoreAuth.actions;
 
 export default StoreAuth.reducer;

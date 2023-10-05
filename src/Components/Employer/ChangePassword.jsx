@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { Button, FormControl, Paper, Stack, TextField } from "@mui/material";
-import { setRegister } from "../../Utils/Stores/AuthStore";
+import { setPassword } from "../../Utils/Stores/AuthStore";
 import { useDispatch } from "react-redux";
 
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
-  const [NewPassword, setPassword] = useState("");
+  const [newPassword, setPasswords] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
 
   const [errors, setErrors] = useState({
-    NewPassword: "",
+    newPassword: "",
     confirmPassword: "",
     oldPassword: "",
   });
 
-  const validatePassword = (NewPassword) => {
+  const validatePassword = (newPassword) => {
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
-    return passwordRegex.test(NewPassword);
+    return passwordRegex.test(newPassword);
   };
   const validateConfirmPassword = (confirmPassword) => {
     const passwordRegex =
@@ -34,11 +34,11 @@ const ChangePassword = () => {
       isValid = false;
     }
 
-    if (!NewPassword) {
-      newErrors.NewPassword = "new Password is required";
+    if (!newPassword) {
+      newErrors.newPassword = "new Password is required";
       isValid = false;
-    } else if (!validatePassword(NewPassword)) {
-      newErrors.NewPassword =
+    } else if (!validatePassword(newPassword)) {
+      newErrors.newPassword =
         "Please enter a strong password with at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)";
       isValid = false;
     }
@@ -52,7 +52,7 @@ const ChangePassword = () => {
       isValid = false;
     }
 
-    if (NewPassword !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
       isValid = false;
     }
@@ -65,18 +65,14 @@ const ChangePassword = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      const formData = new FormData();
-      formData.append("oldPassword", oldPassword);
-      formData.append("NewPassword", NewPassword);
-
-      await dispatch(setRegister(formData));
+      await dispatch(setPassword({ data: { oldPassword, newPassword } }));
       resetForm();
     }
   };
 
   const resetForm = () => {
     setOldPassword("");
-    setPassword("");
+    setPasswords("");
     setConfirmPassword("");
     setErrors({});
   };
@@ -117,10 +113,10 @@ const ChangePassword = () => {
             label="New Password"
             variant="outlined"
             type="password"
-            value={NewPassword}
-            onChange={(e) => setPassword(e.target.value)}
-            error={!!errors.NewPassword}
-            helperText={errors.NewPassword}
+            value={newPassword}
+            onChange={(e) => setPasswords(e.target.value)}
+            error={!!errors.newPassword}
+            helperText={errors.newPassword}
           />
         </FormControl>
         <FormControl fullWidth size="small">

@@ -1,5 +1,10 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { setLoginData, setRegisterData, setUpdateData } from "../Stores/AuthStore";
+import {
+  setLoginData,
+  setPasswordData,
+  setRegisterData,
+  setUpdateData,
+} from "../Stores/AuthStore";
 import { Login, Register, update } from "../Api/Auth";
 import { toast } from "react-toastify";
 import {
@@ -20,6 +25,7 @@ import {
 export function* watchFetchLeave() {
   yield takeLatest("auth/setRegister", fetchSetRegister);
   yield takeLatest("auth/setUpdate", fetchSetUpdate);
+  yield takeLatest("auth/setPassword", fetchSetPassword);
   yield takeLatest("auth/setLogin", fetchSetLogin);
 
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
@@ -45,6 +51,16 @@ function* fetchSetUpdate(action) {
   try {
     yield call(update, action.payload);
     yield setUpdateData();
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetPassword(action) {
+  try {
+    yield call(update, action.payload.data);
+    yield setPasswordData();
   } catch (error) {
     toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
