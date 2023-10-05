@@ -91,10 +91,10 @@ export const updatePassword = async (data) => {
     );
 
     if (response.status === 200) {
+      toast.success(response.data.message);
       window.location.href = "/dashboard";
     } else if (response.status === 401) {
       console.log(response.response.data.message);
-      toast.error(response.response.data.message);
     } else {
       console.log(response);
       toast.error(response.data.message);
