@@ -100,7 +100,7 @@ export const updatePassword = async (data) => {
       toast.error(response.data.message);
     }
   } catch (error) {
-    toast.error(error.response.data.msg);
+    toast.error(error.response.data.message);
     toast.error(error.response.data.error);
     console.error("Login Error:", error);
   }
