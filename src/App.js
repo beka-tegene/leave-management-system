@@ -9,6 +9,7 @@ import EmployerNotification from "./Pages/Employer/EmployerNotification";
 import NotFound from "./Pages/NotFound";
 import Cookies from "js-cookie";
 import ProtectedRoute from "./ProtectedRoute";
+import EmployerProfile from "./Pages/Employer/EmployerProfile";
 const LoginRoute = () => {
   // Check if the user is already authenticated
   const isAuthenticated = !!Cookies.get("token");
@@ -53,6 +54,16 @@ function App() {
           element={
             role === "user" ? (
               <EmployerNotification />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            role === "user" ? (
+              <EmployerProfile />
             ) : (
               <Navigate to="/login" />
             )

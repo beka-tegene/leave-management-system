@@ -239,6 +239,9 @@ const Pending = () => {
                   <Typography>
                     Remaining Date : {selectedRow.user?.total_leaves} days
                   </Typography>
+                  <Typography>
+                    Leave Days : {selectedRow.leave?.duration} days
+                  </Typography>
                   <Typography>Reason : {selectedRow.leave?.reason}</Typography>
                   {selectedRow.leave?.photo && (
                     <Stack direction={"row"} gap={0.5} alignItems={"center"}>

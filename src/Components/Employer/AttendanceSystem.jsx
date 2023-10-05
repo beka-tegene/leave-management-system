@@ -53,7 +53,7 @@ const AttendanceSystem = () => {
       alignItems={"center"}
       justifyContent={"center"}
       flexWrap={"wrap"}
-      sx={{ width: "84%", background: "#171717" }}
+      sx={{ width: "100%", background: "#171717",py:2 }}
       gap={3}
     >
       <Card

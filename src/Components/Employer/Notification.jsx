@@ -66,7 +66,7 @@ const Notification = () => {
     },
   };
   return (
-    <Box sx={{ width: "84%", p: 2, background: "#171717" }}>
+    <Box sx={{ minHeight:"90dvh", p: 2, background: "#171717" }}>
       <DataTable
         columns={columns}
         data={decodedToken.data?.Notification}

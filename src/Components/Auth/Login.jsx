@@ -92,7 +92,7 @@ const Login = () => {
                 id="email-basic"
                 label="Email"
                 variant="outlined"
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={!!errors.email}

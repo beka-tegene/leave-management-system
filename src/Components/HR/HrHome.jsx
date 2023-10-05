@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
 import { Stack, Typography } from "@mui/material";
+import ExcelExport from "./ExcelExport";
 
 export default function HrHome() {
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
@@ -29,7 +30,6 @@ export default function HrHome() {
     (leaveItem) => leaveItem.status !== "pending"
   );
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
-  console.log(joinedData);
   const columns = [
     {
       name: "Name",
@@ -107,6 +107,7 @@ export default function HrHome() {
   };
   return (
     <Box sx={{ width: "84%", p: 2, background: "#171717" }}>
+      <ExcelExport data={joinedData} />
       <DataTable
         columns={columns}
         data={joinedData}

@@ -1,19 +1,19 @@
-import { Stack } from "@mui/material";
 import React from "react";
+import Profile from "../../Components/Employer/Profile";
+import { Stack } from "@mui/material";
 import Dashboard from "../../Components/Employer/Dashboard";
-import AttendanceSystem from "../../Components/Employer/AttendanceSystem";
 import Navbar from "../../Components/Employer/Navbar";
 
-const EmployerDashboard = () => {
+const EmployerProfile = () => {
   return (
     <Stack direction={"row"}>
       <Dashboard />
       <Stack width={"100%"}>
         <Navbar />
-        <AttendanceSystem />
+        <Profile />
       </Stack>
     </Stack>
   );
 };
 
-export default EmployerDashboard;
+export default EmployerProfile;

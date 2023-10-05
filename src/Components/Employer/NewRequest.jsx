@@ -51,7 +51,7 @@ const NewRequest = () => {
       direction={"column"}
       justifyContent={"center"}
       alignItems={"center"}
-      sx={{ p: 2, width: "84%" ,background:"#171717"}}
+      sx={{ p: 2 ,background:"#171717"}}
       gap={2}
     >
       <Paper
@@ -62,7 +62,7 @@ const NewRequest = () => {
           gap: 2,
           p: 2,
           width: 425,
-          background:"#323445"
+          // background:"#323445"
         }}
         onSubmit={submitHandler}
       >
@@ -129,7 +129,7 @@ const NewRequest = () => {
                 outline: "none",
                 border: "2px solid #3348BB",
                 borderRadius: 4,
-                background:"#323445"
+                // background:"#323445"
               }}
               onChange={(e) => setstart_date(e.target.value)}
             />
@@ -143,7 +143,8 @@ const NewRequest = () => {
                 fontSize: "15px",
                 outline: "none",
                 border: "2px solid #3348BB",
-                borderRadius: 4,background:"#323445"
+                borderRadius: 4,
+                // background:"#323445"
               }}
               onChange={(e) => setend_date(e.target.value)}
             />
@@ -157,7 +158,8 @@ const NewRequest = () => {
                 outline: "none",
                 border: "2px solid #3348BB",
                 borderRadius: 4,
-                resize: "none",background:"#323445"
+                resize: "none",
+                // background:"#323445"
               }}
               onChange={(e) => setreason(e.target.value)}
             />
@@ -170,7 +172,7 @@ const NewRequest = () => {
               type="file"
               accept=".pdf"
               onChange={handleFileChange}
-              style={{background:"#323445"}}
+              // style={{background:"#323445"}}
             />
           </FormControl>
           {photo && (

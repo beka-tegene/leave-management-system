@@ -9,7 +9,8 @@ import {
 import React from "react";
 import { useMatch, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import Cookies from "js-cookie";
+
+import logo from "../../Image/logo.jpeg";
 const Dashboard = () => {
   const employerDashboard = useMatch("/employer-dashboard");
   const employerNotification = useMatch("/employer-Notification");
@@ -23,6 +24,7 @@ const Dashboard = () => {
       position={"sticky"}
       sx={{
         top: 0,
+        left: 0,
         width: 250,
         background: "#292A2C",
         height: "100dvh",
@@ -31,6 +33,7 @@ const Dashboard = () => {
     >
       <Stack
         sx={{ height: "30dvh" }}
+        direction={"row"}
         alignItems={"center"}
         justifyContent={"center"}
       >
@@ -40,30 +43,30 @@ const Dashboard = () => {
             minWidth: 90,
             minHeight: 90,
             maxHeight: 90,
-            borderRadius: "50%",
-            border: "5px solid #EF9B01",
             p: 0.3,
           }}
         >
           <img
-            src={decodedToken?.data?.photo}
+            src={logo}
             alt="profile"
-            style={{ minWidth: "100%", maxWidth: "100%", borderRadius: "50%" }}
+            style={{ minWidth: "100%", maxWidth: "100%" }}
           />
         </ImageListItem>
-        <Typography
+        <Stack>
+          <Typography
+            fontSize="14px"
+            color="#FFFFFF"
+          >
+            Dan Energy
+          </Typography>
+          <Typography
           fontSize="13px"
-          color="#FFFFFF"
-          sx={{ textAlign: "center" }}
-        >
-          {decodedToken?.data?.name}
-        </Typography>
-        <Typography
-          color="#FFFFFF"
-          sx={{ textAlign: "center", textTransform: "capitalize" }}
-        >
-          {decodedToken.data.role}
-        </Typography>
+            color="#FFFFFF"
+            sx={{  textTransform: "capitalize" }}
+          >
+            Leave Management System
+          </Typography>
+        </Stack>
       </Stack>
       <Stack
         sx={{
@@ -115,16 +118,6 @@ const Dashboard = () => {
             }}
           >
             New Request
-          </ListItemButton>
-          <ListItemButton
-            onClick={() => {
-              Cookies.remove("role");
-              Cookies.remove("token");
-              localStorage.clear();
-              window.location.href = "/";
-            }}
-          >
-            Logout
           </ListItemButton>
         </List>
       </Stack>
