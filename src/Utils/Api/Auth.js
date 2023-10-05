@@ -52,3 +52,24 @@ export const Login = async (data) => {
     console.error("Login Error:", error);
   }
 };
+
+
+
+export const update = async (data) => {
+  console.log(data);
+  const useData = await axios.post(
+    "http://localhost:5000/user/updateUser",
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  console.log(useData);
+  if (useData.status === 201) {
+    window.location.href = "/dashboard";
+  } else {
+    alert("error");
+  }
+};
