@@ -62,7 +62,7 @@ function* fetchSetPassword(action) {
     yield call(updatePassword, action.payload.data);
     yield setPasswordData();
   } catch (error) {
-    toast.error(error.response.data.msg);
+    toast.error(error.response.data.message);
     console.error("Saga Error:", error);
   }
 }
