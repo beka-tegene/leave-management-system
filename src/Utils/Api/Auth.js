@@ -106,8 +106,6 @@ export const updatePassword = async (data) => {
   }
 };
 
-
-
 export const notificationUpdate = async (data) => {
   try {
     const response = await axios.post(
@@ -123,7 +121,7 @@ export const notificationUpdate = async (data) => {
 
     if (response.status === 200) {
       toast.success(response.data.message);
-      window.location.href = "/dashboard";
+      window.location.reload(true);
     } else if (response.status === 404) {
       console.log(response.response.data.message);
     } else {

@@ -26,6 +26,7 @@ const Dashboard = () => {
     dispatch(setNotification({ data: { userId, notificationId } }));
     navigate("/employer-Notification");
   };
+  const len = decodedToken?.data?.Notification?.length - 1
   return (
     <Stack
       position={"sticky"}
@@ -104,7 +105,7 @@ const Dashboard = () => {
             onClick={() =>
               notificationHandler(
                 decodedToken?.data?._id,
-                decodedToken?.data?.Notification?.[-1]?._id
+                decodedToken?.data?.Notification[len]?._id
               )
             }
             sx={{
@@ -113,7 +114,7 @@ const Dashboard = () => {
             }}
           >
             <Badge
-              badgeContent={decodedToken?.data?.Notification?.length}
+              badgeContent={decodedToken?.data?.Notification[len]?.updated_at === true ? 0 : 1}
               color="error"
             >
               Notification

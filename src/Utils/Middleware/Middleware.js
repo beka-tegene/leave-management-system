@@ -6,7 +6,7 @@ import {
   setRegisterData,
   setUpdateData,
 } from "../Stores/AuthStore";
-import { Login, Register, update, updatePassword } from "../Api/Auth";
+import { Login, Register, notificationUpdate, update, updatePassword } from "../Api/Auth";
 import { toast } from "react-toastify";
 import {
   getNewRequest,
@@ -121,7 +121,7 @@ function* fetchSetApproveLeave(action) {
 
 function* fetchSetNotification(action) {
   try {
-    yield call(approveLeave, action.payload.data);
+    yield call(notificationUpdate, action.payload.data);
     yield setNotificationData();
   } catch (error) {
     toast.error(error.response.data.msg);
