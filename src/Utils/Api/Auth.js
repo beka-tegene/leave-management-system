@@ -105,3 +105,34 @@ export const updatePassword = async (data) => {
     console.error("Login Error:", error);
   }
 };
+
+
+
+export const notificationUpdate = async (data) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/users/notifcation",
+
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success(response.data.message);
+      window.location.href = "/dashboard";
+    } else if (response.status === 404) {
+      console.log(response.response.data.message);
+    } else {
+      console.log(response);
+      toast.error(response.data.message);
+    }
+  } catch (error) {
+    toast.error(error.response.data.message);
+    toast.error(error.response.data.error);
+    console.error("Login Error:", error);
+  }
+};
