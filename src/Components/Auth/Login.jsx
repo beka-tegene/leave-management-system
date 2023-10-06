@@ -87,7 +87,7 @@ const Login = () => {
             }}
             onSubmit={submitHandler}
           >
-            <FormControl sx={{ width: "100%" }} size="small" required>
+            <FormControl sx={{ width: "100%" ,color:"white"}} size="small" required>
               <TextField
                 id="Id-basic"
                 label="ID"
@@ -95,16 +95,18 @@ const Login = () => {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                sx={{color:"white"}}
                 error={!!errors.email}
                 helperText={errors.email}
               />
             </FormControl>
-            <FormControl sx={{ width: "100%" }} size="small" required>
+            <FormControl sx={{ width: "100%",color:"white" }} size="small" required>
               <TextField
                 id="password-basic"
                 label="Password"
                 variant="outlined"
                 type="password"
+                sx={{color:"white"}}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 error={!!errors.password}

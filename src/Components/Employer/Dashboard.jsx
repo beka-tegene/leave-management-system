@@ -54,13 +54,13 @@ const Dashboard = () => {
         </ImageListItem>
         <Stack>
           <Typography
-            fontSize="14px"
+            fontSize="18px"
             color="#FFFFFF"
           >
             Dan Energy
           </Typography>
           <Typography
-          fontSize="13px"
+          fontSize="9px"
             color="#FFFFFF"
             sx={{  textTransform: "capitalize" }}
           >

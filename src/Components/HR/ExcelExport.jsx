@@ -58,7 +58,7 @@ const ExcelExport = ({ data }) => {
       (currentDate.getFullYear() - createdDate.getFullYear()) * 12 +
       (currentDate.getMonth() - createdDate.getMonth());
 
-    return monthDifference <= 1;
+    return monthDifference < 1;
   });
   const reversedMonthlyReport = [...MonthlyReport].reverse();
   return (
