@@ -46,7 +46,7 @@ const HrDashboard = () => {
         width: 250,
         background: "#222c65",
         height: "100dvh",
-        color: "#FFFFFF", 
+        color: "#FFFFFF",
         top: 0,
       }}
     >
@@ -72,16 +72,13 @@ const HrDashboard = () => {
           />
         </ImageListItem>
         <Stack>
-          <Typography
-            fontSize="18px"
-            color="#FFFFFF"
-          >
+          <Typography fontSize="18px" color="#FFFFFF">
             Dan Energy
           </Typography>
           <Typography
-          fontSize="9px"
+            fontSize="9px"
             color="#FFFFFF"
-            sx={{  textTransform: "capitalize" }}
+            sx={{ textTransform: "capitalize" }}
           >
             Leave Management System
           </Typography>
@@ -126,7 +123,15 @@ const HrDashboard = () => {
               Pending Request
             </Badge>
           </ListItemButton>
-
+          <ListItemButton
+            onClick={() => navigate("/change-password")}
+            sx={{
+              background: hrPending ? "#FFF" : "",
+              color: hrPending ? "#171717" : "",
+            }}
+          >
+            Change Password
+          </ListItemButton>
           <ListItemButton
             onClick={() => {
               Cookies.remove("role");

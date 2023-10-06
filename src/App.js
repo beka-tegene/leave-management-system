@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import ProtectedRoute from "./ProtectedRoute";
 import EmployerProfile from "./Pages/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Employer/EmployerChangePassword";
+import HrChangePassword from "./Pages/HR/HrChangePassword";
 const LoginRoute = () => {
   // Check if the user is already authenticated
   const isAuthenticated = !!Cookies.get("token");
@@ -71,6 +72,8 @@ function App() {
           element={
             role === "user" ? (
               <EmployerChangePassword />
+            ) : role === "hr" ? (
+              <HrChangePassword />
             ) : (
               <Navigate to="/login" />
             )
