@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
   setLoginData,
+  setNotificationData,
   setPasswordData,
   setRegisterData,
   setUpdateData,
@@ -27,6 +28,7 @@ export function* watchFetchLeave() {
   yield takeLatest("auth/setUpdate", fetchSetUpdate);
   yield takeLatest("auth/setPassword", fetchSetPassword);
   yield takeLatest("auth/setLogin", fetchSetLogin);
+  yield takeLatest("auth/setNotification", fetchSetNotification);
 
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
   yield takeLatest("leave/getNewRequestData", fetchGetNewRequest);
@@ -111,6 +113,16 @@ function* fetchSetApproveLeave(action) {
   try {
     yield call(approveLeave, action.payload.data);
     yield setApproveLeaveData();
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetNotification(action) {
+  try {
+    yield call(approveLeave, action.payload.data);
+    yield setNotificationData();
   } catch (error) {
     toast.error(error.response.data.msg);
     console.error("Saga Error:", error);

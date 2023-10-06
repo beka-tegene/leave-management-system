@@ -5,6 +5,7 @@ const initialState = {
   InputLogin: [],
   InputUpdate: [],
   InputPassword: [],
+  InputNotification: [],
 };
 
 const StoreAuth = createSlice({
@@ -52,6 +53,14 @@ const StoreAuth = createSlice({
         userId: newData.userId,
       });
     },
+    setNotificationData(state) {},
+    setNotification(state, action) {
+      const newData = action.payload;
+      state.InputNotification.push({
+        userId: newData.userId,
+        notificationId: newData.newPassword,
+      });
+    },
   },
 });
 
@@ -64,6 +73,8 @@ export const {
   setUpdateData,
   setPasswordData,
   setPassword,
+  setNotificationData,
+  setNotification,
 } = StoreAuth.actions;
 
 export default StoreAuth.reducer;

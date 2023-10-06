@@ -11,6 +11,8 @@ import { useMatch, useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 
 import logo from "../../Image/logo.jpeg";
+import { useDispatch } from "react-redux";
+import { setNotification } from "../../Utils/Stores/AuthStore";
 const Dashboard = () => {
   const employerDashboard = useMatch("/dashboard");
   const employerNotification = useMatch("/employer-Notification");
@@ -19,6 +21,11 @@ const Dashboard = () => {
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
+  const dispatch = useDispatch();
+  const notificationHandler = (userId, notificationId) => {
+    dispatch(setNotification({ data: { userId, notificationId } }));
+    navigate("/employer-Notification");
+  };
   return (
     <Stack
       position={"sticky"}
@@ -53,16 +60,13 @@ const Dashboard = () => {
           />
         </ImageListItem>
         <Stack>
-          <Typography
-            fontSize="18px"
-            color="#FFFFFF"
-          >
+          <Typography fontSize="18px" color="#FFFFFF">
             Dan Energy
           </Typography>
           <Typography
-          fontSize="9px"
+            fontSize="9px"
             color="#FFFFFF"
-            sx={{  textTransform: "capitalize" }}
+            sx={{ textTransform: "capitalize" }}
           >
             Leave Management System
           </Typography>
@@ -97,7 +101,12 @@ const Dashboard = () => {
             Dashboard
           </ListItemButton>
           <ListItemButton
-            onClick={() => navigate("/employer-Notification")}
+            onClick={() =>
+              notificationHandler(
+                decodedToken?.data?._id,
+                decodedToken?.data?.Notification?.[-1]?._id
+              )
+            }
             sx={{
               background: employerNotification ? "#FFF" : "",
               color: employerNotification ? "#171717" : "",
