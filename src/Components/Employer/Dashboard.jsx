@@ -12,7 +12,7 @@ import jwt_decode from "jwt-decode";
 
 import logo from "../../Image/logo.jpeg";
 const Dashboard = () => {
-  const employerDashboard = useMatch("/employer-dashboard");
+  const employerDashboard = useMatch("/dashboard");
   const employerNotification = useMatch("/employer-Notification");
   const employerRequest = useMatch("/employer-request");
   const navigate = useNavigate();

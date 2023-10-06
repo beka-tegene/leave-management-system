@@ -15,8 +15,9 @@ import logo from "../../Image/logo.jpeg";
 
 import Cookies from "js-cookie";
 const HrDashboard = () => {
-  const hrDashboard = useMatch("/hr-dashboard");
+  const hrDashboard = useMatch("/dashboard");
   const hrPending = useMatch("/hr-pending");
+  const hrChangePassword = useMatch("/change-password");
   const navigate = useNavigate();
 
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
@@ -126,8 +127,8 @@ const HrDashboard = () => {
           <ListItemButton
             onClick={() => navigate("/change-password")}
             sx={{
-              background: hrPending ? "#FFF" : "",
-              color: hrPending ? "#171717" : "",
+              background: hrChangePassword ? "#FFF" : "",
+              color: hrChangePassword ? "#171717" : "",
             }}
           >
             Change Password

@@ -10,9 +10,11 @@ import jwt_decode from "jwt-decode";
 import { ArrowDropDown } from "@mui/icons-material";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import profile from "../../Image/avater.jpg";
 const Navbar = () => {
+  const profiles = useMatch("/profile");
+  const changePassword = useMatch("/change-password");
   const token = window.localStorage.getItem("token");
 
   const decodedToken = jwt_decode(token);
@@ -108,8 +110,24 @@ const Navbar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={() => navigate("/profile")}>Profile</MenuItem>
-        <MenuItem onClick={() => navigate("/change-password")}>Change Password</MenuItem>
+        <MenuItem
+          onClick={() => navigate("/profile")}
+          sx={{
+            background: profiles ? "#272727" : "",
+            color: profiles ? "#FFFFFF" : "",
+          }}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={() => navigate("/change-password")}
+          sx={{
+            background: changePassword ? "#272727" : "",
+            color: changePassword ? "#FFFFFF" : "",
+          }}
+        >
+          Change Password
+        </MenuItem>
         <MenuItem
           onClick={() => {
             Cookies.remove("role");
