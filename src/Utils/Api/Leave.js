@@ -54,7 +54,7 @@ export const declineLeave = async (data) => {
     window.location.reload(true);
   }
 };
-export const fetchapprovedmonth = async () => {
+export const fetchApprovedMonth = async () => {
   const useData = await axios.get("http://localhost:5000/leave/approvedmonth");
   return useData.data;
 };

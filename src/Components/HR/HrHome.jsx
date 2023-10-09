@@ -4,33 +4,37 @@ import Box from "@mui/material/Box";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
+import {
+  getDownloadReportData,
+  getUsersData,
+} from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
 import { Stack, Typography } from "@mui/material";
 import ExcelExport from "./ExcelExport";
 
 export default function HrHome() {
-  const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getNewRequestData());
-  }, [dispatch]);
   const Users = useSelector((state) => state.StoreLeave.OutputUsers);
   useEffect(() => {
     dispatch(getUsersData());
   }, [dispatch]);
+
+  const DownloadReport = useSelector(
+    (state) => state.StoreLeave.OutputDownloadReport
+  );
+  useEffect(() => {
+    dispatch(getDownloadReportData());
+  }, []);
+
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.Id === leaveItem.Id);
+    const matchingUser = Users?.find((user) => user.Id === leaveItem.userId);
     return {
       leave: leaveItem,
       user: matchingUser,
     };
   };
-  const pendingLeaveData = Leave.filter(
-    (leaveItem) => leaveItem.status !== "pending"
-  );
-  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
-  const reversedJoinedData = [...joinedData].reverse();
+  const joinedData =
+    DownloadReport?.map((leaveItem) => joinData(leaveItem)) || [];
   const columns = [
     {
       name: "Name",
@@ -67,21 +71,30 @@ export default function HrHome() {
       selector: (row) => row.user?.total_leaves,
     },
     {
-      name: "Type",
+      name: "Requested",
       selector: (row) => {
         return (
-          <Stack>
-            {row.leave?.status === "approved" && (
-              <Typography fontSize={"14px"} color={"#00aa00"}>
-                {row.leave?.status}
-              </Typography>
-            )}
-            {row.leave?.status === "declined" && (
-              <Typography fontSize={"14px"} color={"#aa0000"}>
-                {row.leave?.status}
-              </Typography>
-            )}
-          </Stack>
+          <Typography fontSize={"14px"}>{row.leave?.requested}</Typography>
+        );
+      },
+    },
+    {
+      name: "Approved",
+      selector: (row) => {
+        return (
+          <Typography fontSize={"14px"} color={"#00aa00"}>
+            {row.leave?.approved}
+          </Typography>
+        );
+      },
+    },
+    {
+      name: "Declined",
+      selector: (row) => {
+        return (
+          <Typography fontSize={"14px"} color={"#aa0000"}>
+            {row.leave?.declined}
+          </Typography>
         );
       },
     },
@@ -106,12 +119,13 @@ export default function HrHome() {
       },
     },
   };
+  console.log(DownloadReport);
   return (
-    <Box sx={{ minHeight:"90dvh", p: 2, background: "#171717" }}>
+    <Box sx={{ minHeight: "90dvh", p: 2, background: "#171717" }}>
       <ExcelExport data={joinedData} />
       <DataTable
         columns={columns}
-        data={reversedJoinedData}
+        data={joinedData}
         fixedHeader
         pagination
         customStyles={customStyle}

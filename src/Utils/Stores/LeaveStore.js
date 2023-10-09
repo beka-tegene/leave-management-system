@@ -6,6 +6,7 @@ const initialState = {
   OutputUsers: [],
   InputApproveLeave: [],
   InputDeclineLeave: [],
+  OutputDownloadReport: [],
 };
 
 const StoreLeave = createSlice({
@@ -49,6 +50,10 @@ const StoreLeave = createSlice({
         leaveId: newData.leaveId,
       });
     },
+    getDownloadReportData(state) {},
+    getDownloadReport(state, action) {
+      state.OutputDownloadReport = action.payload;
+    },
   },
 });
 
@@ -63,6 +68,8 @@ export const {
   setApproveLeave,
   setDeclineLeaveData,
   setDeclineLeave,
+  getDownloadReportData,
+  getDownloadReport,
 } = StoreLeave.actions;
 
 export default StoreLeave.reducer;
