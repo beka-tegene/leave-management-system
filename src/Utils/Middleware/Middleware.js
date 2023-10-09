@@ -9,6 +9,7 @@ import {
 import { Login, Register, update, updatePassword } from "../Api/Auth";
 import { toast } from "react-toastify";
 import {
+  getDownloadReport,
   getNewRequest,
   getUsers,
   setApproveLeaveData,
@@ -19,6 +20,7 @@ import {
   NewRequest,
   approveLeave,
   declineLeave,
+  fetchApprovedMonth,
   fetchLeave,
   fetchUser,
 } from "../Api/Leave";
@@ -35,6 +37,7 @@ export function* watchFetchLeave() {
   yield takeLatest("leave/getUsersData", fetchGetUsers);
   yield takeLatest("leave/setApproveLeave", fetchSetApproveLeave);
   yield takeLatest("leave/setDeclineLeave", fetchSetDeclineLeave);
+  yield takeLatest("leave/getDownloadReportData", fetchDownloadReport);
 }
 
 // Authentication and Authorization data
@@ -133,6 +136,16 @@ function* fetchSetDeclineLeave(action) {
   try {
     yield call(declineLeave, action.payload.data);
     yield setDeclineLeaveData();
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchDownloadReport(action) {
+  try {
+    const backData = yield call(fetchApprovedMonth, action.payload);
+    yield put(getDownloadReport(backData));
   } catch (error) {
     toast.error(error.response.data.msg);
     console.error("Saga Error:", error);

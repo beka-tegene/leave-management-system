@@ -19,6 +19,7 @@ import {
 } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
+import profile from "../../Image/avater.jpg";
 const style = {
   position: "absolute",
   top: "50%",
@@ -47,18 +48,18 @@ const Pending = () => {
     dispatch(getUsersData());
   }, [dispatch]);
   const joinData = (leaveItem) => {
-    const matchingUser = Users.find((user) => user.Id === leaveItem.Id);
+    const matchingUser = Users?.find((user) => user.Id === leaveItem.Id);
     return {
       leave: leaveItem,
       user: matchingUser,
     };
   };
-  const pendingLeaveData = Leave.filter(
+  const pendingLeaveData = Leave?.filter(
     (leaveItem) => leaveItem.status === "pending"
   );
-  const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
-
-    const columns = [
+  const joinedData = pendingLeaveData?.map((leaveItem) => joinData(leaveItem)) || [];
+console.log(selectedRow);
+  const columns = [
     {
       name: "Name",
       selector: (row) => row.user?.name,
@@ -99,7 +100,7 @@ const Pending = () => {
       name: "Action",
       selector: (row) => {
         return (
-          <Stack direction={"row"} gap={1} >
+          <Stack direction={"row"} gap={1}>
             <IconButton
               sx={{
                 borderRadius: 1,
@@ -179,7 +180,9 @@ const Pending = () => {
     >
       <Card
         sx={{
-          width: "100%",background: "#171717",color:"#FFFFFF"
+          width: "100%",
+          background: "#171717",
+          color: "#FFFFFF",
         }}
       >
         <Typography sx={{ p: 1, pl: 2 }}>New Request</Typography>
@@ -211,7 +214,12 @@ const Pending = () => {
               <Box sx={style}>
                 <Stack direction={"row"} gap={2}>
                   <ImageListItem sx={{ maxWidth: 120 }}>
-                    <img src={selectedRow.user?.photo} alt="profile" />
+                    {selectedRow.user?.photo && (
+                      <img src={selectedRow.user?.photo} alt="profile" />
+                    )}
+                    {!selectedRow.user?.photo && (
+                      <img src={profile} alt="profile" />
+                    )}
                   </ImageListItem>
                   <Stack>
                     <Typography>Name: {selectedRow.user?.name}</Typography>
@@ -279,10 +287,7 @@ const Pending = () => {
                       color: "#FFF",
                     }}
                     onClick={() =>
-                      approveHandler(
-                        selectedRow.user?.Id,
-                        selectedRow?.leave
-                      )
+                      approveHandler(selectedRow.user?.Id, selectedRow?.leave)
                     }
                   >
                     <Typography>Approve</Typography>
