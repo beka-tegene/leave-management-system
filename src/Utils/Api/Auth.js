@@ -34,7 +34,7 @@ export const Login = async (data) => {
       localStorage.setItem("token", token);
       Cookies.set("token", token, { expires: 1 });
 
-      Cookies.set("role", decodedToken.role, { expires: 1 });
+      // Cookies.set("role", decodedToken.role, { expires: 1 });
 
       if (decodedToken.role === "admin") {
         window.location.href = "/admin";
@@ -67,11 +67,9 @@ export const update = async (data) => {
   console.log(useData);
   if (useData.status === 200) {
     const { token } = useData.data;
-    const decodedToken = jwt_decode(token);
     localStorage.setItem("token", token);
     Cookies.set("token", token, { expires: 1 });
 
-    Cookies.set("role", decodedToken.role, { expires: 1 });
     window.location.href = "/dashboard";
   } else {
     alert("error");
@@ -121,6 +119,9 @@ export const notificationUpdate = async (data) => {
 
     if (response.status === 200) {
       toast.success(response.data.message);
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      Cookies.set("token", token, { expires: 1 });
       window.location.reload(true);
     } else if (response.status === 404) {
       console.log(response.response.data.message);

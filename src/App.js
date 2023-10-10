@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import EmployerProfile from "./Pages/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Employer/EmployerChangePassword";
 import HrChangePassword from "./Pages/HR/HrChangePassword";
+import jwt_decode from "jwt-decode";
 const LoginRoute = () => {
   // Check if the user is already authenticated
   const isAuthenticated = !!Cookies.get("token");
@@ -19,9 +20,10 @@ const LoginRoute = () => {
   return isAuthenticated ? <Navigate to="/dashboard" /> : <Signin />;
 };
 function App() {
-  const role = Cookies.get("role") || "guest";
-  console.log(role);
-
+  const token = Cookies.get("token") || "guest";
+  const decodedToken = token != "guest" ? jwt_decode(token) : "guest";
+  const role = decodedToken.role;
+console.log(decodedToken);
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
