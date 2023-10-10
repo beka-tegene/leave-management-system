@@ -127,11 +127,8 @@ export const notificationUpdate = async (data) => {
       console.log(response.response.data.message);
     } else {
       console.log(response);
-      toast.error(response.data.message);
     }
   } catch (error) {
-    toast.error(error.response.data.message);
-    toast.error(error.response.data.error);
     console.error("Login Error:", error);
   }
 };
