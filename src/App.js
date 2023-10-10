@@ -21,7 +21,7 @@ const LoginRoute = () => {
 };
 function App() {
   const token = Cookies.get("token") || "guest";
-  const decodedToken = token != "guest" ? jwt_decode(token) : "guest";
+  const decodedToken = token !== "guest" ? jwt_decode(token) : "guest";
   const role = decodedToken.role;
 console.log(decodedToken);
   return (
