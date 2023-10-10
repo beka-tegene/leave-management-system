@@ -58,6 +58,7 @@ const NewRequest = () => {
     const endTime = new Date(`1970-01-01T${end}`);
     const timeDifference = endTime - startTime;
     const hoursDifference = timeDifference / (1000 * 60 * 60);
+    console.log(hoursDifference);
     return hoursDifference <= MAX_HOURS_DIFFERENCE;
   };
 
@@ -121,7 +122,7 @@ const NewRequest = () => {
               }}
             >
               <MenuItem value="Annual Leave">Annual Leave</MenuItem>
-              <MenuItem value="Emergency Leave">Emergency Leave</MenuItem>
+              <MenuItem value="Emergency Leave" disabled>Emergency Leave</MenuItem>
               <MenuItem value="Maternity Leave">Maternity Leave</MenuItem>
               <MenuItem value="Marriage Leave">Marriage Leave</MenuItem>
               <MenuItem value="Mourning Leave">Mourning Leave</MenuItem>
@@ -230,7 +231,7 @@ const NewRequest = () => {
                     border: "2px solid #3348BB",
                     borderRadius: 4,
                   }}
-                  value={startTime}
+                  // value={startTime}
                   onChange={handleStartTimeChange}
                 />
               </FormControl>
@@ -245,7 +246,7 @@ const NewRequest = () => {
                     border: "2px solid #3348BB",
                     borderRadius: 4,
                   }}
-                  value={endTime}
+                  // value={endTime}
                   onChange={handleEndTimeChange}
                 />
               </FormControl>
