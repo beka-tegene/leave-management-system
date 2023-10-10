@@ -123,7 +123,6 @@ export const notificationUpdate = async (data) => {
       const { token } = response.data;
       localStorage.setItem("token", token);
       Cookies.set("token", token, { expires: 1 });
-      window.location.reload(true);
     } else if (response.status === 404) {
       console.log(response.response.data.message);
     } else {
