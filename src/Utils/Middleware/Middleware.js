@@ -127,7 +127,6 @@ function* fetchSetNotification(action) {
     yield call(notificationUpdate, action.payload.data);
     yield setNotificationData();
   } catch (error) {
-    toast.error(error.response.data.msg);
     console.error("Saga Error:", error);
   }
 }
