@@ -118,6 +118,7 @@ export const notificationUpdate = async (data) => {
     );
 
     if (response.status === 200) {
+      console.log(response.data);
       toast.success(response.data.message);
       const { token } = response.data;
       localStorage.setItem("token", token);
