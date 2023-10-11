@@ -40,6 +40,7 @@ const StoreLeave = createSlice({
         email: newData.email,
         leaveId: newData.leaveId,
         allowedLeaveDays: newData.allowedLeaveDays,
+        leave_type: newData.leave_type,
       });
     },
     setDeclineLeaveData(state) {},
