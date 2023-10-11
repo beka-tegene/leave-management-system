@@ -117,7 +117,7 @@ console.log(selectedRow);
                 backgroundColor: "#009900",
                 color: "#FFF",
               }}
-              onClick={() => approveHandler(row.user?.Id, row?.leave)}
+              onClick={() => approveHandler(row.user?.Id, row?.leave )}
             >
               <Typography>Approve</Typography>
             </IconButton>
@@ -131,6 +131,7 @@ console.log(selectedRow);
   };
   const approveHandler = (Id, leave) => {
     const leaveId = leave?._id;
+    const leave_type = leave?.leave_type;
     let allowedLeaveDays = 0;
     const startDate = new Date(leave.start_date);
     const endDate = new Date(leave.end_date);
@@ -143,7 +144,7 @@ console.log(selectedRow);
     } else {
       allowedLeaveDays = Math.round(Math.abs(endDate - startDate) / oneDay) + 1;
     }
-    dispatch(setApproveLeave({ data: { Id, leaveId, allowedLeaveDays } }));
+    dispatch(setApproveLeave({ data: { Id, leaveId, allowedLeaveDays ,leave_type} }));
   };
   const customStyle = {
     rows: {
