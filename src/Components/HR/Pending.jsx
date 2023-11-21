@@ -1,6 +1,11 @@
 import {
   Box,
+  Button,
   Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   IconButton,
   ImageListItem,
@@ -57,8 +62,26 @@ const Pending = () => {
   const pendingLeaveData = Leave?.filter(
     (leaveItem) => leaveItem.status === "pending"
   );
-  const joinedData = pendingLeaveData?.map((leaveItem) => joinData(leaveItem)) || [];
-console.log(selectedRow);
+  const joinedData =
+    pendingLeaveData?.map((leaveItem) => joinData(leaveItem)) || [];
+  console.log(selectedRow);
+  const [editConfirmationOpen, setEditConfirmationOpen] = useState(false);
+  const saveEditHandler = () => {
+    setEditConfirmationOpen(true);
+  };
+  const handleEditConfirmation = () => {
+    // dispatch(
+    //   setEditNews({
+    //     data: {
+    //       description: editedDescription,
+    //       newsTitle: editedTitle,
+    //       _id: Id,
+    //     },
+    //   })
+    // );
+    // setIsEditing(false);
+    setEditConfirmationOpen(false);
+  };
   const columns = [
     {
       name: "Name",
@@ -107,7 +130,8 @@ console.log(selectedRow);
                 backgroundColor: "#cc0000",
                 color: "#FFF",
               }}
-              onClick={() => declineHandler(row.user?.Id, row.leave?._id)}
+              onClick={saveEditHandler}
+              // onClick={() => declineHandler(row.user?.Id, row.leave?._id)}
             >
               <Typography>Decline</Typography>
             </IconButton>
@@ -117,7 +141,7 @@ console.log(selectedRow);
                 backgroundColor: "#009900",
                 color: "#FFF",
               }}
-              onClick={() => approveHandler(row.user?.Id, row?.leave )}
+              onClick={() => approveHandler(row.user?.Id, row?.leave)}
             >
               <Typography>Approve</Typography>
             </IconButton>
@@ -144,7 +168,9 @@ console.log(selectedRow);
     } else {
       allowedLeaveDays = Math.round(Math.abs(endDate - startDate) / oneDay) + 1;
     }
-    dispatch(setApproveLeave({ data: { Id, leaveId, allowedLeaveDays ,leave_type} }));
+    dispatch(
+      setApproveLeave({ data: { Id, leaveId, allowedLeaveDays, leave_type } })
+    );
   };
   const customStyle = {
     rows: {
@@ -278,6 +304,7 @@ console.log(selectedRow);
                         selectedRow.leave?._id
                       )
                     }
+                    // onClick={saveEditHandler}
                   >
                     <Typography>Decline</Typography>
                   </IconButton>
@@ -299,6 +326,33 @@ console.log(selectedRow);
           </Modal>
         </Stack>
       </Card>
+      <Dialog
+        open={editConfirmationOpen}
+        onClose={() => setEditConfirmationOpen(false)}
+        aria-labelledby="edit-confirmation-dialog"
+        PaperProps={{
+          style: {
+            maxWidth: 450,
+            width: '100%',
+          },
+        }}
+      >
+        <DialogTitle>Decline Reason</DialogTitle>
+        <DialogContent>
+          <textarea rows={4} style={{ resize: "none",padding:"1rem",fontSize:"16px",width:"100%",borderRadius:5 }}></textarea>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setEditConfirmationOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleEditConfirmation} color="error">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Stack>
   );
 };

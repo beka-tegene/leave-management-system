@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   getDownloadReportData,
+  getNewRequestData,
   getUsersData,
 } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
@@ -25,25 +26,29 @@ export default function HrHome() {
   useEffect(() => {
     dispatch(getDownloadReportData());
   }, []);
+  const AllLeave = useSelector((state) => state.StoreLeave.OutputNewRequest);
+  useEffect(() => {
+    dispatch(getNewRequestData());
+  }, []);
 
   const joinData = (leaveItem) => {
-    const matchingUser = Users?.find((user) => user.Id === leaveItem.userId);
+    const matchingUser = Users?.find((user) => user.Id === leaveItem.Id);
+    const matchingAllLeave = DownloadReport?.find(
+      (user) => user.userId === leaveItem.Id
+    );
     return {
-      leave: leaveItem,
+      leave: matchingAllLeave,
       user: matchingUser,
+      allLeave: leaveItem,
     };
   };
-  const joinedData =
-    DownloadReport?.map((leaveItem) => joinData(leaveItem)) || [];
+  const joinedData = AllLeave?.map((leaveItem) => joinData(leaveItem)) || [];
+  console.log("abebe", joinedData);
+
   const columns = [
     {
       name: "Name",
       selector: (row) => row.user?.name,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.user?.email,
       sortable: true,
     },
     {
@@ -58,14 +63,36 @@ export default function HrHome() {
       sortable: true,
     },
     {
-      name: "Department",
-      selector: (row) => row.user?.department_id,
-      sortable: true,
+      name: "Start Date",
+      selector: (row) => {
+        return (
+          <span>
+            {new Date(row.allLeave?.start_date).toLocaleDateString("en-US")}
+          </span>
+        );
+      },
     },
     {
-      name: "Studied",
-      selector: (row) => row.user?.studied,
+      name: "End Date",
+      selector: (row) => {
+        return (
+          <span>
+            {new Date(row.allLeave?.end_date).toLocaleDateString("en-US")}
+          </span>
+        );
+      },
     },
+    {
+      name: "Duration",
+      selector: (row) => {
+        return (
+          <span>
+           {row.allLeave?.duration} days
+          </span>
+        );
+      },
+    },
+
     {
       name: "Remaining Date",
       selector: (row) => row.user?.total_leaves,

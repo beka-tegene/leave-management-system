@@ -6,6 +6,7 @@ const initialState = {
   InputUpdate: [],
   InputPassword: [],
   InputNotification: [],
+  InputCreateEmployer: [],
 };
 
 const StoreAuth = createSlice({
@@ -18,6 +19,15 @@ const StoreAuth = createSlice({
       state.InputLogin.push({
         email: newData.email,
         password: newData.password,
+      });
+    },
+    setCreateEmployerData(state) {},
+    setCreateEmployer(state, action) {
+      const newData = action.payload;
+      state.InputCreateEmployer.push({
+        id: newData.id,
+        fullName: newData.fullName,
+        employmentDate: newData.employmentDate,
       });
     },
     setRegisterData(state) {},
@@ -75,6 +85,8 @@ export const {
   setPassword,
   setNotificationData,
   setNotification,
+  setCreateEmployerData,
+  setCreateEmployer,
 } = StoreAuth.actions;
 
 export default StoreAuth.reducer;

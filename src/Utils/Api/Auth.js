@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 export const Register = async (data) => {
   const useData = await axios.post(
-    "http://192.168.0.63:5000/users/register",
+    "http://localhost:5000/users/register",
     data,
     {
       headers: {
@@ -22,7 +22,7 @@ export const Register = async (data) => {
 
 export const Login = async (data) => {
   try {
-    const response = await axios.post("http://192.168.0.63:5000/login/", data, {
+    const response = await axios.post("http://localhost:5000/login/", data, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -56,7 +56,7 @@ export const Login = async (data) => {
 export const update = async (data) => {
   console.log(data);
   const useData = await axios.post(
-    "http://192.168.0.63:5000/users/updateUser",
+    "http://localhost:5000/users/updateUser",
     data,
     {
       headers: {
@@ -78,7 +78,7 @@ export const update = async (data) => {
 export const updatePassword = async (data) => {
   try {
     const response = await axios.post(
-      "http://192.168.0.63:5000/users/changePassword",
+      "http://localhost:5000/users/changePassword",
 
       data,
       {
@@ -107,7 +107,7 @@ export const updatePassword = async (data) => {
 export const notificationUpdate = async (data) => {
   try {
     const response = await axios.post(
-      "http://192.168.0.63:5000/users/notifcation",
+      "http://localhost:5000/users/notifcation",
 
       data,
       {

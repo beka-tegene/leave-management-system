@@ -61,6 +61,9 @@ const NewRequest = () => {
     console.log(hoursDifference);
     return hoursDifference <= MAX_HOURS_DIFFERENCE;
   };
+  const EndDays = new Date(endDate);
+  const StartDays = new Date(startDate);
+  const LeaveDays = EndDays.getDay() - StartDays.getDay() + 1;
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -122,7 +125,9 @@ const NewRequest = () => {
               }}
             >
               <MenuItem value="Annual Leave">Annual Leave</MenuItem>
-              <MenuItem value="Emergency Leave" disabled>Emergency Leave</MenuItem>
+              <MenuItem value="Emergency Leave" disabled>
+                Emergency Leave
+              </MenuItem>
               <MenuItem value="Maternity Leave">Maternity Leave</MenuItem>
               <MenuItem value="Marriage Leave">Marriage Leave</MenuItem>
               <MenuItem value="Mourning Leave">Mourning Leave</MenuItem>
@@ -199,16 +204,24 @@ const NewRequest = () => {
                   onChange={(e) => setReason(e.target.value)}
                 />
               </FormControl>
-              <FormControl fullWidth required size="small">
-                <FormLabel>Attachment</FormLabel>
-                <input
-                  id="pdf-file-basic"
-                  variant="outlined"
-                  type="file"
-                  accept=".pdf, .jpg, .png"
-                  onChange={handleFileChange}
-                />
-              </FormControl>
+              {LeaveDays !== NaN && (
+                <Typography>
+                  You asked {duration === "0.5" ? "half" : LeaveDays} Days
+                  Permission
+                </Typography>
+              )}
+              {leaveType === "Sick Leave" && (
+                <FormControl fullWidth required size="small">
+                  <FormLabel>Attachment</FormLabel>
+                  <input
+                    id="pdf-file-basic"
+                    variant="outlined"
+                    type="file"
+                    accept=".pdf, .jpg, .png"
+                    onChange={handleFileChange}
+                  />
+                </FormControl>
+              )}
               {photo && (
                 <div>
                   <Typography fontSize="12px">

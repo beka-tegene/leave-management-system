@@ -13,6 +13,7 @@ import EmployerProfile from "./Pages/Employer/EmployerProfile";
 import EmployerChangePassword from "./Pages/Employer/EmployerChangePassword";
 import HrChangePassword from "./Pages/HR/HrChangePassword";
 import jwt_decode from "jwt-decode";
+import HrCreateEmployer from "./Pages/HR/HrCreateEmployer";
 const LoginRoute = () => {
   // Check if the user is already authenticated
   const isAuthenticated = !!Cookies.get("token");
@@ -44,6 +45,10 @@ function App() {
         <Route
           path="/hr-pending"
           element={role === "hr" ? <HrPending /> : <Navigate to="/login" />}
+        />
+         <Route
+          path="/hr-create-employer"
+          element={role === "hr" ? <HrCreateEmployer /> : <Navigate to="/login" />}
         />
 
         <Route

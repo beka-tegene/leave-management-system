@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import {
+  setCreateEmployerData,
   setLoginData,
   setNotificationData,
   setPasswordData,
@@ -17,6 +18,7 @@ import {
   setNewRequestData,
 } from "../Stores/LeaveStore";
 import {
+  CreateEmployer,
   NewRequest,
   approveLeave,
   declineLeave,
@@ -31,6 +33,7 @@ export function* watchFetchLeave() {
   yield takeLatest("auth/setPassword", fetchSetPassword);
   yield takeLatest("auth/setLogin", fetchSetLogin);
   yield takeLatest("auth/setNotification", fetchSetNotification);
+  yield takeLatest("auth/setCreateEmployer", fetchSetCreateEmployer);
 
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
   yield takeLatest("leave/getNewRequestData", fetchGetNewRequest);
@@ -145,6 +148,16 @@ function* fetchDownloadReport(action) {
   try {
     const backData = yield call(fetchApprovedMonth, action.payload);
     yield put(getDownloadReport(backData));
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetCreateEmployer(action) {
+  try {
+    yield call(CreateEmployer, action.payload.data);
+    yield setCreateEmployerData();
   } catch (error) {
     toast.error(error.response.data.msg);
     console.error("Saga Error:", error);

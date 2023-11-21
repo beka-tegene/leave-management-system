@@ -16,6 +16,7 @@ import logo from "../../Image/logo.jpeg";
 import Cookies from "js-cookie";
 const HrDashboard = () => {
   const hrDashboard = useMatch("/dashboard");
+  const hrCreateEmployer = useMatch("/hr-create-employer");
   const hrPending = useMatch("/hr-pending");
   const hrChangePassword = useMatch("/change-password");
   const navigate = useNavigate();
@@ -123,6 +124,16 @@ const HrDashboard = () => {
             <Badge badgeContent={joinedData.length} color="error">
               Pending Request
             </Badge>
+          </ListItemButton>
+          <ListItemButton
+            sx={{
+              fontWeight: "lg",
+              background: hrCreateEmployer ? "#FFF" : "",
+              color: hrCreateEmployer ? "#171717" : "",
+            }}
+            onClick={() => navigate("/hr-create-employer")}
+          >
+            Create Employer
           </ListItemButton>
           <ListItemButton
             onClick={() => navigate("/change-password")}

@@ -2,27 +2,36 @@ import { Stack } from "@mui/material";
 import React from "react";
 import { CSVLink } from "react-csv";
 
+const formatDate = (dateString) => {
+  const options = { month: "short", day: "numeric", year: "numeric" };
+  const formattedDate = new Date(dateString).toLocaleDateString("en-US", options);
+  return formattedDate;
+};
+
+const formatDataForCSV = (data) => {
+  return data?.map((item) => ({
+    "ID": item.user?.Id || "",
+    "Name": item.user?.name || "",
+    "Employment Date": item.user?.employment_date ? formatDate(item.user?.employment_date) : "",
+    "Start Day": item.allLeave?.start_date ? formatDate(item.allLeave.start_date) : "",
+    "End Day": item.allLeave?.end_date ? formatDate(item.allLeave.end_date) : "",
+    "Duration": item.allLeave?.duration || "",
+    "Reason": item.allLeave?.reason || "",
+    "Leave Type": item.allLeave?.leave_type || "",
+    "Status": item.allLeave?.status || "",
+    "Remaining Date": item.user?.total_leaves || "",
+    "Requested": item.leave?.requested || "",
+    "Approved": item.leave?.approved || "",
+    "Declined": item.leave?.declined || "",
+  }));
+};
 const ExcelExport = ({ data }) => {
-  const headers = [
-    { label: "ID", key: "user.Id" },
-    { label: "Name", key: "user.name" },
-    { label: "Email", key: "user.email" },
-    {
-      label: "Employment Date",
-      key: "user.employment_date",
-    },
-    { label: "Department", key: "user.department_id" },
-    { label: "Studied", key: "user.studied" },
-    { label: "Remaining Date", key: "user.total_leaves" },
-    { label: "Requested", key: "leave.requested" },
-    { label: "Approved", key: "leave.approved" },
-    { label: "Declined", key: "leave.declined" },
-  ];
+  const formattedData = formatDataForCSV(data);
+
   return (
     <Stack alignItems={"flex-end"} py={2} pr={2}>
       <CSVLink
-        data={data}
-        headers={headers}
+        data={formattedData}
         filename="monthLeaveManagement.csv"
         style={{
           textDecoration: "none",
