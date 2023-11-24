@@ -1,49 +1,107 @@
 import * as React from "react";
-
 import Box from "@mui/material/Box";
-
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   getDownloadReportData,
   getNewRequestData,
   getUsersData,
 } from "../../Utils/Stores/LeaveStore";
 import DataTable from "react-data-table-component";
-import { Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import ExcelExport from "./ExcelExport";
+import { setUpdateApprove } from "../../Utils/Stores/AuthStore";
 
 export default function HrHome() {
   const dispatch = useDispatch();
   const Users = useSelector((state) => state.StoreLeave.OutputUsers);
-  useEffect(() => {
-    dispatch(getUsersData());
-  }, [dispatch]);
-
   const DownloadReport = useSelector(
     (state) => state.StoreLeave.OutputDownloadReport
   );
-  useEffect(() => {
-    dispatch(getDownloadReportData());
-  }, []);
   const AllLeave = useSelector((state) => state.StoreLeave.OutputNewRequest);
+
   useEffect(() => {
+    dispatch(getUsersData());
+    dispatch(getDownloadReportData());
     dispatch(getNewRequestData());
-  }, []);
+  }, [dispatch]);
 
   const joinData = (leaveItem) => {
     const matchingUser = Users?.find((user) => user.Id === leaveItem.Id);
     const matchingAllLeave = DownloadReport?.find(
-      (user) => user.userId === leaveItem.Id
+      (report) => report.userId === leaveItem.Id
     );
+
     return {
       leave: matchingAllLeave,
       user: matchingUser,
       allLeave: leaveItem,
     };
   };
-  const joinedData = AllLeave?.map((leaveItem) => joinData(leaveItem)) || [];
-  console.log("abebe", joinedData);
+
+  const joinedData = (AllLeave || []).reduce((accumulator, leaveItem) => {
+    if (leaveItem.status !== "pending") {
+      const joined = joinData(leaveItem);
+      accumulator.push(joined);
+    }
+    return accumulator;
+  }, []);
+
+  const [editConfirmationOpen, setEditConfirmationOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  const saveEditHandler = () => {
+    setEditConfirmationOpen(true);
+  };
+
+  const handleEditConfirmation = () => {
+    if (reason.trim() === "") {
+      return;
+    }
+    const leaveId = selectedRow.allLeave?._id;
+    const Id = selectedRow.allLeave?.Id;
+    const status = selectedRow?.status;
+    dispatch(
+      setUpdateApprove({
+        data: {
+          leaveId,
+          Id,
+          reason,
+          status,
+        },
+      })
+    );
+    setEditConfirmationOpen(false);
+  };
+
+  const submitUpdateHandler = (row, status) => {
+    const leaveId = row.allLeave?._id;
+    const Id = row.allLeave?.Id;
+    const allowedLeaveDays = row.allLeave?.duration;
+    const leave_type = row.allLeave?.leave_type;
+    dispatch(
+      setUpdateApprove({
+        data: {
+          leaveId,
+          Id,
+          allowedLeaveDays,
+          leave_type,
+          status,
+        },
+      })
+    );
+  };
 
   const columns = [
     {
@@ -85,47 +143,35 @@ export default function HrHome() {
     {
       name: "Duration",
       selector: (row) => {
-        return (
-          <span>
-           {row.allLeave?.duration} days
-          </span>
-        );
-      },
-    },
-
-    {
-      name: "Remaining Date",
-      selector: (row) => row.user?.total_leaves,
-    },
-    {
-      name: "Requested",
-      selector: (row) => {
-        return (
-          <Typography fontSize={"14px"}>{row.leave?.requested}</Typography>
-        );
+        return <span>{row.allLeave?.duration} days</span>;
       },
     },
     {
-      name: "Approved",
+      name: "Status",
       selector: (row) => {
         return (
-          <Typography fontSize={"14px"} color={"#00aa00"}>
-            {row.leave?.approved}
-          </Typography>
-        );
-      },
-    },
-    {
-      name: "Declined",
-      selector: (row) => {
-        return (
-          <Typography fontSize={"14px"} color={"#aa0000"}>
-            {row.leave?.declined}
-          </Typography>
+          <Select
+            value={row.allLeave?.status}
+            sx={{
+              fontSize: "13px",
+              color: row.allLeave?.status === "declined" ? "red" : "#00aa00",
+            }}
+            size="small"
+            onChange={(e) => {
+              setSelectedRow({ ...row, status: e.target.value });
+              row.allLeave?.status === "approved"
+                ? saveEditHandler()
+                : submitUpdateHandler(row, e.target.value);
+            }}
+          >
+            <MenuItem value="approved">approved</MenuItem>
+            <MenuItem value="declined">declined</MenuItem>
+          </Select>
         );
       },
     },
   ];
+
   const customStyle = {
     rows: {
       style: {
@@ -146,7 +192,7 @@ export default function HrHome() {
       },
     },
   };
-  console.log(DownloadReport);
+
   return (
     <Box sx={{ minHeight: "90dvh", p: 2, background: "#171717" }}>
       <ExcelExport data={joinedData} />
@@ -157,6 +203,43 @@ export default function HrHome() {
         pagination
         customStyles={customStyle}
       />
+      <Dialog
+        open={editConfirmationOpen}
+        onClose={() => setEditConfirmationOpen(false)}
+        aria-labelledby="edit-confirmation-dialog"
+        PaperProps={{
+          style: {
+            maxWidth: 450,
+            width: "100%",
+          },
+        }}
+      >
+        <DialogTitle>Decline Reason</DialogTitle>
+        <DialogContent>
+          <textarea
+            rows={4}
+            style={{
+              resize: "none",
+              padding: "1rem",
+              fontSize: "16px",
+              width: "100%",
+              borderRadius: 5,
+            }}
+            onChange={(e) => setReason(e.target.value)}
+          ></textarea>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setEditConfirmationOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleEditConfirmation} color="error">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

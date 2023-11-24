@@ -7,6 +7,7 @@ const initialState = {
   InputPassword: [],
   InputNotification: [],
   InputCreateEmployer: [],
+  InputUpdateApprove: [],
 };
 
 const StoreAuth = createSlice({
@@ -71,6 +72,18 @@ const StoreAuth = createSlice({
         notificationId: newData.newPassword,
       });
     },
+    setUpdateApproveData(state) {},
+    setUpdateApprove(state, action) {
+      const newData = action.payload;
+      state.InputUpdateApprove.push({
+        reason: newData.reason,
+        leaveId: newData.leaveId,
+        Id: newData.Id,
+        allowedLeaveDays: newData.allowedLeaveDays,
+        leave_type: newData.leave_type,
+        status: newData.status,
+      });
+    },
   },
 });
 
@@ -87,6 +100,8 @@ export const {
   setNotification,
   setCreateEmployerData,
   setCreateEmployer,
+  setUpdateApproveData,
+  setUpdateApprove,
 } = StoreAuth.actions;
 
 export default StoreAuth.reducer;

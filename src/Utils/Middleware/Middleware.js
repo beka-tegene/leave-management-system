@@ -5,9 +5,16 @@ import {
   setNotificationData,
   setPasswordData,
   setRegisterData,
+  setUpdateApproveData,
   setUpdateData,
 } from "../Stores/AuthStore";
-import { Login, Register, notificationUpdate, update, updatePassword } from "../Api/Auth";
+import {
+  Login,
+  Register,
+  notificationUpdate,
+  update,
+  updatePassword,
+} from "../Api/Auth";
 import { toast } from "react-toastify";
 import {
   getDownloadReport,
@@ -20,6 +27,7 @@ import {
 import {
   CreateEmployer,
   NewRequest,
+  UpdateAppAndDec,
   approveLeave,
   declineLeave,
   fetchApprovedMonth,
@@ -34,6 +42,7 @@ export function* watchFetchLeave() {
   yield takeLatest("auth/setLogin", fetchSetLogin);
   yield takeLatest("auth/setNotification", fetchSetNotification);
   yield takeLatest("auth/setCreateEmployer", fetchSetCreateEmployer);
+  yield takeLatest("auth/setUpdateApprove", fetchSetUpdateLeaveApprove);
 
   yield takeLatest("leave/setNewRequest", fetchSetNewRequest);
   yield takeLatest("leave/getNewRequestData", fetchGetNewRequest);
@@ -158,6 +167,16 @@ function* fetchSetCreateEmployer(action) {
   try {
     yield call(CreateEmployer, action.payload.data);
     yield setCreateEmployerData();
+  } catch (error) {
+    toast.error(error.response.data.msg);
+    console.error("Saga Error:", error);
+  }
+}
+
+function* fetchSetUpdateLeaveApprove(action) {
+  try {
+    yield call(UpdateAppAndDec, action.payload.data);
+    yield setUpdateApproveData();
   } catch (error) {
     toast.error(error.response.data.msg);
     console.error("Saga Error:", error);

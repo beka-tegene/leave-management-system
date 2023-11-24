@@ -9,7 +9,9 @@ const formatDate = (dateString) => {
 };
 
 const formatDataForCSV = (data) => {
-  return data?.map((item) => ({
+  const approvedData = data?.filter(item => item.allLeave?.status === "approved");
+  
+  return approvedData?.map((item) => ({
     "ID": item.user?.Id || "",
     "Name": item.user?.name || "",
     "Employment Date": item.user?.employment_date ? formatDate(item.user?.employment_date) : "",
@@ -23,8 +25,9 @@ const formatDataForCSV = (data) => {
     "Requested": item.leave?.requested || "",
     "Approved": item.leave?.approved || "",
     "Declined": item.leave?.declined || "",
-  }));
+  })).filter(item => item.Status === 'approved'); 
 };
+
 const ExcelExport = ({ data }) => {
   const formattedData = formatDataForCSV(data);
 

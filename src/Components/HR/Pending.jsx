@@ -25,12 +25,12 @@ import {
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
 import profile from "../../Image/avater.jpg";
+
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  // width: 400,
   bgcolor: "#272727",
   border: "2px solid #EF9B01",
   color: "#FFFFFF",
@@ -40,18 +40,30 @@ const style = {
   flexDirection: "column",
   gap: 2,
 };
+
 const Pending = () => {
   const [open, setOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState([]);
+  const [reason, setReason] = useState("");
+  const [selectedRow, setSelectedRow] = useState({
+    user: null,
+    leave: null,
+    Id: null,
+    leaveId: null,
+  });
+
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getNewRequestData());
   }, [dispatch]);
+
   const Users = useSelector((state) => state.StoreLeave.OutputUsers);
+
   useEffect(() => {
     dispatch(getUsersData());
   }, [dispatch]);
+
   const joinData = (leaveItem) => {
     const matchingUser = Users?.find((user) => user.Id === leaveItem.Id);
     return {
@@ -59,29 +71,37 @@ const Pending = () => {
       user: matchingUser,
     };
   };
+
   const pendingLeaveData = Leave?.filter(
     (leaveItem) => leaveItem.status === "pending"
   );
+
   const joinedData =
     pendingLeaveData?.map((leaveItem) => joinData(leaveItem)) || [];
-  console.log(selectedRow);
+
   const [editConfirmationOpen, setEditConfirmationOpen] = useState(false);
+
   const saveEditHandler = () => {
     setEditConfirmationOpen(true);
   };
+
   const handleEditConfirmation = () => {
-    // dispatch(
-    //   setEditNews({
-    //     data: {
-    //       description: editedDescription,
-    //       newsTitle: editedTitle,
-    //       _id: Id,
-    //     },
-    //   })
-    // );
-    // setIsEditing(false);
+    if (reason.trim() === "") {
+      return;
+    }
+
+    dispatch(
+      setDeclineLeave({
+        data: {
+          Id: selectedRow.user?.Id,
+          leaveId: selectedRow.leave?._id,
+          reason,
+        },
+      })
+    );
     setEditConfirmationOpen(false);
   };
+
   const columns = [
     {
       name: "Name",
@@ -95,24 +115,18 @@ const Pending = () => {
     },
     {
       name: "Start Date",
-      selector: (row) => {
-        return (
-          <span>
-            {new Date(row.leave?.start_date).toLocaleDateString("en-US")}
-          </span>
-        );
-      },
+      selector: (row) => (
+        <span>
+          {new Date(row.leave?.start_date).toLocaleDateString("en-US")}
+        </span>
+      ),
       sortable: true,
     },
     {
       name: "End Date",
-      selector: (row) => {
-        return (
-          <span>
-            {new Date(row.leave?.end_date).toLocaleDateString("en-US")}
-          </span>
-        );
-      },
+      selector: (row) => (
+        <span>{new Date(row.leave?.end_date).toLocaleDateString("en-US")}</span>
+      ),
       sortable: true,
     },
     {
@@ -121,38 +135,33 @@ const Pending = () => {
     },
     {
       name: "Action",
-      selector: (row) => {
-        return (
-          <Stack direction={"row"} gap={1}>
-            <IconButton
-              sx={{
-                borderRadius: 1,
-                backgroundColor: "#cc0000",
-                color: "#FFF",
-              }}
-              onClick={saveEditHandler}
-              // onClick={() => declineHandler(row.user?.Id, row.leave?._id)}
-            >
-              <Typography>Decline</Typography>
-            </IconButton>
-            <IconButton
-              sx={{
-                borderRadius: 1,
-                backgroundColor: "#009900",
-                color: "#FFF",
-              }}
-              onClick={() => approveHandler(row.user?.Id, row?.leave)}
-            >
-              <Typography>Approve</Typography>
-            </IconButton>
-          </Stack>
-        );
-      },
+      selector: (row) => (
+        <Stack direction={"row"} gap={1}>
+          <IconButton
+            sx={{
+              borderRadius: 1,
+              backgroundColor: "#cc0000",
+              color: "#FFF",
+            }}
+            onClick={saveEditHandler}
+          >
+            <Typography>Decline</Typography>
+          </IconButton>
+          <IconButton
+            sx={{
+              borderRadius: 1,
+              backgroundColor: "#009900",
+              color: "#FFF",
+            }}
+            onClick={() => approveHandler(row.user?.Id, row?.leave)}
+          >
+            <Typography>Approve</Typography>
+          </IconButton>
+        </Stack>
+      ),
     },
   ];
-  const declineHandler = (Id, leaveId) => {
-    dispatch(setDeclineLeave({ data: { Id, leaveId } }));
-  };
+
   const approveHandler = (Id, leave) => {
     const leaveId = leave?._id;
     const leave_type = leave?.leave_type;
@@ -160,6 +169,7 @@ const Pending = () => {
     const startDate = new Date(leave.start_date);
     const endDate = new Date(leave.end_date);
     const oneDay = 24 * 60 * 60 * 1000;
+
     if (
       startDate.getTime() === endDate.getTime() &&
       leave?.duration === "0.5"
@@ -168,10 +178,14 @@ const Pending = () => {
     } else {
       allowedLeaveDays = Math.round(Math.abs(endDate - startDate) / oneDay) + 1;
     }
+
     dispatch(
-      setApproveLeave({ data: { Id, leaveId, allowedLeaveDays, leave_type } })
+      setApproveLeave({
+        data: { Id, leaveId, allowedLeaveDays, leave_type },
+      })
     );
   };
+
   const customStyle = {
     rows: {
       style: {
@@ -192,140 +206,118 @@ const Pending = () => {
       },
     },
   };
+
   const rowHandler = (row) => {
     setOpen(true);
     setSelectedRow(row);
   };
+
   return (
     <Stack
-      direction={"row"}
-      alignItems={"flex-start"}
+      direction={"column"}
+      // alignItems={"flex-start"}
       justifyContent={"flex-start"}
-      flexWrap={"wrap"}
+      // flexWrap={"wrap"}
       sx={{ minHeight: "90dvh", background: "#171717", p: 2 }}
-      gap={3}
+      // gap={1}
     >
-      <Card
-        sx={{
-          width: "100%",
-          background: "#171717",
-          color: "#FFFFFF",
-        }}
+      <Typography sx={{ p: 1, pl: 2, color: "#FFF" }}>New Request</Typography>
+      <Divider sx={{ m: 1, color: "#FFF" }} />
+      <DataTable
+        columns={columns}
+        data={joinedData}
+        fixedHeader
+        pagination
+        customStyles={customStyle}
+        onRowClicked={(row) => rowHandler(row)}
+      />
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <Typography sx={{ p: 1, pl: 2 }}>New Request</Typography>
-        <Divider sx={{ m: 1 }} />
-        <Stack
-          direction={"row"}
-          alignItems={"flex-start"}
-          // justifyContent={"flex-start"}
-          flexWrap={"wrap"}
-          gap={3}
-          sx={{ p: 5 }}
-        >
-          <DataTable
-            columns={columns}
-            data={joinedData}
-            fixedHeader
-            pagination
-            customStyles={customStyle}
-            onRowClicked={(row) => rowHandler(row)}
-          />
-
-          <Modal
-            open={open}
-            onClose={() => setOpen(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            {selectedRow && (
-              <Box sx={style}>
-                <Stack direction={"row"} gap={2}>
-                  <ImageListItem sx={{ maxWidth: 120 }}>
-                    {selectedRow.user?.photo && (
-                      <img src={selectedRow.user?.photo} alt="profile" />
-                    )}
-                    {!selectedRow.user?.photo && (
-                      <img src={profile} alt="profile" />
-                    )}
-                  </ImageListItem>
-                  <Stack>
-                    <Typography>Name: {selectedRow.user?.name}</Typography>
-                    <Typography>
-                      Leave Type : {selectedRow.leave?.leave_type}
-                    </Typography>
-                    <Typography>
-                      Department : {selectedRow.user?.department_id}
-                    </Typography>
-                    <Typography>
-                      Start Date :{" "}
-                      {new Date(
-                        selectedRow.leave?.start_date
-                      ).toLocaleDateString("en-US")}
-                    </Typography>
-                    <Typography>
-                      End Date :{" "}
-                      {new Date(selectedRow.leave?.end_date).toLocaleDateString(
-                        "en-US"
-                      )}
-                    </Typography>
-                  </Stack>
-                </Stack>
-                <Stack>
-                  <Typography>
-                    Remaining Date : {selectedRow.user?.total_leaves} days
-                  </Typography>
-                  <Typography>
-                    Leave Days : {selectedRow.leave?.duration} days
-                  </Typography>
-                  <Typography>Reason : {selectedRow.leave?.reason}</Typography>
-                  {selectedRow.leave?.photo && (
-                    <Stack direction={"row"} gap={0.5} alignItems={"center"}>
-                      <Typography>If you went to download the </Typography>
-                      <Link
-                        onClick={() =>
-                          window.open(`${selectedRow.leave?.photo}`, "_block")
-                        }
-                      >
-                        Attachment
-                      </Link>
-                    </Stack>
+        {selectedRow && (
+          <Box sx={style}>
+            <Stack direction={"row"} gap={2}>
+              <ImageListItem sx={{ maxWidth: 120 }}>
+                {selectedRow.user?.photo && (
+                  <img src={selectedRow.user?.photo} alt="profile" />
+                )}
+                {!selectedRow.user?.photo && (
+                  <img src={profile} alt="profile" />
+                )}
+              </ImageListItem>
+              <Stack>
+                <Typography>Name: {selectedRow.user?.name}</Typography>
+                <Typography>
+                  Leave Type : {selectedRow.leave?.leave_type}
+                </Typography>
+                <Typography>
+                  Department : {selectedRow.user?.department_id}
+                </Typography>
+                <Typography>
+                  Start Date :{" "}
+                  {new Date(selectedRow.leave?.start_date).toLocaleDateString(
+                    "en-US"
                   )}
-                </Stack>
-                <Stack direction={"row"} gap={1} justifyContent={"flex-end"}>
-                  <IconButton
-                    sx={{
-                      borderRadius: 1,
-                      backgroundColor: "#cc0000",
-                      color: "#FFF",
-                    }}
+                </Typography>
+                <Typography>
+                  End Date :{" "}
+                  {new Date(selectedRow.leave?.end_date).toLocaleDateString(
+                    "en-US"
+                  )}
+                </Typography>
+              </Stack>
+            </Stack>
+            <Stack>
+              <Typography>
+                Remaining Date : {selectedRow.user?.total_leaves} days
+              </Typography>
+              <Typography>
+                Leave Days : {selectedRow.leave?.duration} days
+              </Typography>
+              <Typography>Reason : {selectedRow.leave?.reason}</Typography>
+              {selectedRow.leave?.photo && (
+                <Stack direction={"row"} gap={0.5} alignItems={"center"}>
+                  <Typography>If you want to download the </Typography>
+                  <Link
                     onClick={() =>
-                      declineHandler(
-                        selectedRow.user?.Id,
-                        selectedRow.leave?._id
-                      )
-                    }
-                    // onClick={saveEditHandler}
-                  >
-                    <Typography>Decline</Typography>
-                  </IconButton>
-                  <IconButton
-                    sx={{
-                      borderRadius: 1,
-                      backgroundColor: "#009900",
-                      color: "#FFF",
-                    }}
-                    onClick={() =>
-                      approveHandler(selectedRow.user?.Id, selectedRow?.leave)
+                      window.open(`${selectedRow.leave?.photo}`, "_block")
                     }
                   >
-                    <Typography>Approve</Typography>
-                  </IconButton>
+                    Attachment
+                  </Link>
                 </Stack>
-              </Box>
-            )}
-          </Modal>
-        </Stack>
-      </Card>
+              )}
+            </Stack>
+            <Stack direction={"row"} gap={1} justifyContent={"flex-end"}>
+              <IconButton
+                sx={{
+                  borderRadius: 1,
+                  backgroundColor: "#cc0000",
+                  color: "#FFF",
+                }}
+                onClick={saveEditHandler}
+              >
+                <Typography>Decline</Typography>
+              </IconButton>
+              <IconButton
+                sx={{
+                  borderRadius: 1,
+                  backgroundColor: "#009900",
+                  color: "#FFF",
+                }}
+                onClick={() =>
+                  approveHandler(selectedRow.user?.Id, selectedRow?.leave)
+                }
+              >
+                <Typography>Approve</Typography>
+              </IconButton>
+            </Stack>
+          </Box>
+        )}
+      </Modal>
       <Dialog
         open={editConfirmationOpen}
         onClose={() => setEditConfirmationOpen(false)}
@@ -333,13 +325,23 @@ const Pending = () => {
         PaperProps={{
           style: {
             maxWidth: 450,
-            width: '100%',
+            width: "100%",
           },
         }}
       >
         <DialogTitle>Decline Reason</DialogTitle>
         <DialogContent>
-          <textarea rows={4} style={{ resize: "none",padding:"1rem",fontSize:"16px",width:"100%",borderRadius:5 }}></textarea>
+          <textarea
+            rows={4}
+            style={{
+              resize: "none",
+              padding: "1rem",
+              fontSize: "16px",
+              width: "100%",
+              borderRadius: 5,
+            }}
+            onChange={(e) => setReason(e.target.value)}
+          ></textarea>
         </DialogContent>
         <DialogActions>
           <Button

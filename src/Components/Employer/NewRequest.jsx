@@ -24,8 +24,8 @@ const NewRequest = () => {
   const [photo, setPhoto] = useState(null);
   const [leaveType, setLeaveType] = useState("");
   const [duration, setDuration] = useState("0.5");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [reason, setReason] = useState("");
@@ -61,10 +61,12 @@ const NewRequest = () => {
     console.log(hoursDifference);
     return hoursDifference <= MAX_HOURS_DIFFERENCE;
   };
-  const EndDays = new Date(endDate);
-  const StartDays = new Date(startDate);
-  const LeaveDays = EndDays.getDay() - StartDays.getDay() + 1;
+  const startDay = new Date(startDate);
+  const endDay = new Date(endDate);
 
+  const timeDifference = endDay.getTime() - startDay.getTime();
+  const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+  const LeaveDays = dayDifference + 1;
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -159,6 +161,7 @@ const NewRequest = () => {
                   />
                 </RadioGroup>
               </FormControl>
+
               <FormControl fullWidth required>
                 <FormLabel>Start date</FormLabel>
                 <input
@@ -170,7 +173,7 @@ const NewRequest = () => {
                     border: "2px solid #3348BB",
                     borderRadius: 4,
                   }}
-                  value={startDate}
+                  defaultValue={new Date().toISOString().split("T")[0]}
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </FormControl>
@@ -185,12 +188,13 @@ const NewRequest = () => {
                     border: "2px solid #3348BB",
                     borderRadius: 4,
                   }}
-                  value={endDate}
+                  defaultValue={new Date().toISOString().split("T")[0]}
                   onChange={(e) => setEndDate(e.target.value)}
                 />
               </FormControl>
+
               <FormControl fullWidth required>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>Reason</FormLabel>
                 <textarea
                   style={{
                     padding: "0.5rem 1rem",
@@ -204,10 +208,17 @@ const NewRequest = () => {
                   onChange={(e) => setReason(e.target.value)}
                 />
               </FormControl>
-              {LeaveDays !== NaN && (
-                <Typography>
-                  You asked {duration === "0.5" ? "half" : LeaveDays} Days
+              {LeaveDays >= 0 ? (
+                <Typography fontWeight={600} fontSize={"18px"}>
+                  You asked{" "}
+                  <b style={{ color: "red" }}>
+                    {duration === "0.5" ? "half" : LeaveDays} Days{" "}
+                  </b>
                   Permission
+                </Typography>
+              ) : (
+                <Typography fontWeight={600} fontSize={"14px"} color={"red"}>
+                  Negative day difference detected. Please check your dates.
                 </Typography>
               )}
               {leaveType === "Sick Leave" && (
