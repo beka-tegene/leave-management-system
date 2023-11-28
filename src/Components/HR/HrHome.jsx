@@ -71,11 +71,13 @@ export default function HrHome() {
     }
     const leaveId = selectedRow.allLeave?._id;
     const Id = selectedRow.allLeave?.Id;
+    const allowedLeaveDays = selectedRow.allLeave?.duration;
     const status = selectedRow?.status;
     dispatch(
       setUpdateApprove({
         data: {
           leaveId,
+          allowedLeaveDays,
           Id,
           reason,
           status,
