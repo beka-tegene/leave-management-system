@@ -50,7 +50,8 @@ const Pending = () => {
     Id: null,
     leaveId: null,
   });
-
+  const [selectedRowDecline, setSelectedRowDecline] = useState();
+    
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
 
@@ -81,8 +82,9 @@ const Pending = () => {
 
   const [editConfirmationOpen, setEditConfirmationOpen] = useState(false);
 
-  const saveEditHandler = () => {
+  const saveEditHandler = (Id, _id) => {
     setEditConfirmationOpen(true);
+    setSelectedRowDecline({ Id, _id });
   };
 
   const handleEditConfirmation = () => {
@@ -93,8 +95,8 @@ const Pending = () => {
     dispatch(
       setDeclineLeave({
         data: {
-          Id: selectedRow.user?.Id,
-          leaveId: selectedRow.leave?._id,
+          Id: selectedRowDecline.Id,
+          leaveId: selectedRowDecline._id,
           reason,
         },
       })
@@ -143,7 +145,7 @@ const Pending = () => {
               backgroundColor: "#cc0000",
               color: "#FFF",
             }}
-            onClick={saveEditHandler}
+            onClick={() => saveEditHandler(row.user?.Id, row?.leave?._id)}
           >
             <Typography>Decline</Typography>
           </IconButton>
@@ -298,7 +300,7 @@ const Pending = () => {
                   backgroundColor: "#cc0000",
                   color: "#FFF",
                 }}
-                onClick={saveEditHandler}
+                onClick={() => saveEditHandler(selectedRow.user?.Id, selectedRow?.leave?._id)}
               >
                 <Typography>Decline</Typography>
               </IconButton>

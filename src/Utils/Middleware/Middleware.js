@@ -60,7 +60,6 @@ function* fetchSetRegister(action) {
     yield setRegisterData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -70,7 +69,6 @@ function* fetchSetUpdate(action) {
     yield setUpdateData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -80,7 +78,6 @@ function* fetchSetPassword(action) {
     yield setPasswordData();
   } catch (error) {
     toast.error(error.response.data.message);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -90,7 +87,6 @@ function* fetchSetLogin(action) {
     yield setLoginData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -100,7 +96,6 @@ function* fetchSetNewRequest(action) {
     yield setNewRequestData();
   } catch (error) {
     toast.error(error.response.data.error);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -110,7 +105,6 @@ function* fetchGetNewRequest(action) {
     yield put(getNewRequest(backData));
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -120,7 +114,6 @@ function* fetchGetUsers(action) {
     yield put(getUsers(backData));
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -130,7 +123,6 @@ function* fetchSetApproveLeave(action) {
     yield setApproveLeaveData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -138,9 +130,7 @@ function* fetchSetNotification(action) {
   try {
     yield call(notificationUpdate, action.payload.data);
     yield setNotificationData();
-  } catch (error) {
-    console.error("Saga Error:", error);
-  }
+  } catch (error) {}
 }
 
 function* fetchSetDeclineLeave(action) {
@@ -149,7 +139,6 @@ function* fetchSetDeclineLeave(action) {
     yield setDeclineLeaveData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -159,7 +148,6 @@ function* fetchDownloadReport(action) {
     yield put(getDownloadReport(backData));
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -169,7 +157,6 @@ function* fetchSetCreateEmployer(action) {
     yield setCreateEmployerData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }
 
@@ -179,6 +166,5 @@ function* fetchSetUpdateLeaveApprove(action) {
     yield setUpdateApproveData();
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.error("Saga Error:", error);
   }
 }

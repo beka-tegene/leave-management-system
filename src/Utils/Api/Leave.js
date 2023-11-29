@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const NewRequest = async (data) => {
-  console.log(data);
   const useData = await axios.post(
     "http://192.168.0.63:5000/leave/request",
     data,
@@ -11,7 +10,6 @@ export const NewRequest = async (data) => {
       },
     }
   );
-  console.log(useData);
   if (useData.status === 201) {
     window.location.href = "/dashboard";
   } else {
@@ -29,14 +27,12 @@ export const fetchUser = async () => {
   return useData.data;
 };
 export const approveLeave = async (data) => {
-  console.log(data);
   //leaveId, email, allowedLeaveDays
   const Approve = await axios.post("http://192.168.0.63:5000/leave/approve", {
     data,
     ContentType: "application/json",
     Accept: "application/json",
   });
-  console.log(Approve);
   if (Approve.status === 200) {
     window.location.reload(true);
   }
@@ -49,7 +45,6 @@ export const declineLeave = async (data) => {
     ContentType: "application/json",
     Accept: "application/json",
   });
-  console.log(Decline);
   if (Decline.status === 200) {
     window.location.reload(true);
   }
@@ -79,7 +74,6 @@ export const UpdateAppAndDec = async (data) => {
     ContentType: "application/json",
     Accept: "application/json",
   });
-  console.log(create);
   if (create.status === 200) {
     window.location.reload(true);
   }

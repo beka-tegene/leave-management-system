@@ -1,12 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Signin from "./Pages/Signin";
-// import Signup from "./Pages/Signup";
 import HrDashbords from "./Pages/HR/HrDashbords";
 import HrPending from "./Pages/HR/HrPending";
 import EmployerDashboard from "./Pages/Employer/EmployerDashboard";
 import EmployerRequest from "./Pages/Employer/EmployerRequest";
 import EmployerNotification from "./Pages/Employer/EmployerNotification";
-// import NotFound from "./Pages/NotFound";
 import Cookies from "js-cookie";
 import ProtectedRoute from "./ProtectedRoute";
 import EmployerProfile from "./Pages/Employer/EmployerProfile";
@@ -15,7 +13,6 @@ import HrChangePassword from "./Pages/HR/HrChangePassword";
 import jwt_decode from "jwt-decode";
 import HrCreateEmployer from "./Pages/HR/HrCreateEmployer";
 const LoginRoute = () => {
-  // Check if the user is already authenticated
   const isAuthenticated = !!Cookies.get("token");
 
   return isAuthenticated ? <Navigate to="/dashboard" /> : <Signin />;
@@ -28,7 +25,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<LoginRoute />} />
-      {/* <Route path="/register" element={<Signup />} /> */}
       <Route element={<ProtectedRoute />}>
         <Route
           path="/dashboard"
@@ -46,9 +42,11 @@ function App() {
           path="/hr-pending"
           element={role === "hr" ? <HrPending /> : <Navigate to="/login" />}
         />
-         <Route
+        <Route
           path="/hr-create-employer"
-          element={role === "hr" ? <HrCreateEmployer /> : <Navigate to="/login" />}
+          element={
+            role === "hr" ? <HrCreateEmployer /> : <Navigate to="/login" />
+          }
         />
 
         <Route

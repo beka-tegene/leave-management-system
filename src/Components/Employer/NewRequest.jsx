@@ -58,7 +58,6 @@ const NewRequest = () => {
     const endTime = new Date(`1970-01-01T${end}`);
     const timeDifference = endTime - startTime;
     const hoursDifference = timeDifference / (1000 * 60 * 60);
-    console.log(hoursDifference);
     return hoursDifference <= MAX_HOURS_DIFFERENCE;
   };
   const startDay = new Date(startDate);
