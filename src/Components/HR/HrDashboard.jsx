@@ -47,7 +47,7 @@ const HrDashboard = () => {
     addNotification({
       title: lastJoinData?.user?.name,
       message:lastJoinData?.leave?.leave_type,
-      duration:4000,
+      duration:10000,
       icon: logo,
       native:true,
       onClick:()=>window.location = "http://localhost:3000/hr-pending"
