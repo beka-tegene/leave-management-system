@@ -8,7 +8,7 @@ const HrPending = () => {
   return (
     <Stack direction={"row"}>
       <HrDashboard />
-      <Stack width={"100%"}>
+      <Stack width={"85%"}>
         <NavbarHr />
         <Pending />
       </Stack>

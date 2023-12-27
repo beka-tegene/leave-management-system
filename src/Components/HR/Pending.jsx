@@ -50,7 +50,7 @@ const Pending = () => {
     leaveId: null,
   });
   const [selectedRowDecline, setSelectedRowDecline] = useState();
-    
+
   const Leave = useSelector((state) => state.StoreLeave.OutputNewRequest);
   const dispatch = useDispatch();
 
@@ -299,7 +299,9 @@ const Pending = () => {
                   backgroundColor: "#cc0000",
                   color: "#FFF",
                 }}
-                onClick={() => saveEditHandler(selectedRow.user?.Id, selectedRow?.leave?._id)}
+                onClick={() =>
+                  saveEditHandler(selectedRow.user?.Id, selectedRow?.leave?._id)
+                }
               >
                 <Typography>Decline</Typography>
               </IconButton>

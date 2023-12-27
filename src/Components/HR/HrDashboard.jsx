@@ -41,6 +41,21 @@ const HrDashboard = () => {
     (leaveItem) => leaveItem.status === "pending"
   );
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
+  useEffect(() => {
+    if (Notification.permission === "granted" && joinedData.length > 0) {
+      const lastJoinData = joinedData[joinedData.length - 1];
+      new Notification(lastJoinData?.user?.name);
+      new Notification(lastJoinData?.leave?.leave_type);
+    } else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted" && joinedData.length > 0) {
+          const lastJoinData = joinedData[joinedData.length - 1];
+          new Notification(lastJoinData?.user?.name);
+          new Notification(lastJoinData?.leave?.leave_type);
+        }
+      });
+    }
+  }, [joinedData]);
   return (
     <Stack
       position={"sticky"}
