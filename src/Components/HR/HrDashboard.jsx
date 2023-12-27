@@ -14,6 +14,7 @@ import { getNewRequestData, getUsersData } from "../../Utils/Stores/LeaveStore";
 import logo from "../../Image/logo.jpeg";
 
 import Cookies from "js-cookie";
+import addNotification from "react-push-notification";
 const HrDashboard = () => {
   const hrDashboard = useMatch("/dashboard");
   const hrCreateEmployer = useMatch("/hr-create-employer");
@@ -42,19 +43,15 @@ const HrDashboard = () => {
   );
   const joinedData = pendingLeaveData.map((leaveItem) => joinData(leaveItem));
   useEffect(() => {
-    if (Notification.permission === "granted" && joinedData.length > 0) {
-      const lastJoinData = joinedData[joinedData.length - 1];
-      new Notification(lastJoinData?.user?.name);
-      new Notification(lastJoinData?.leave?.leave_type);
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted" && joinedData.length > 0) {
-          const lastJoinData = joinedData[joinedData.length - 1];
-          new Notification(lastJoinData?.user?.name);
-          new Notification(lastJoinData?.leave?.leave_type);
-        }
-      });
-    }
+    const lastJoinData = joinedData[joinedData.length - 1];
+    addNotification({
+      title: lastJoinData?.user?.name,
+      message:lastJoinData?.leave?.leave_type,
+      duration:4000,
+      icon: logo,
+      native:true,
+      onClick:()=>window.location = "http://localhost:3000/hr-pending"
+    })
   }, [joinedData]);
   return (
     <Stack
